@@ -1,167 +1,258 @@
 import {
-  Construction,
   LayoutDashboard,
   Monitor,
-  Bug,
-  ListTodo,
-  FileX,
-  HelpCircle,
-  Lock,
   Bell,
-  Package,
   Palette,
-  ServerOff,
   Settings,
   Wrench,
   UserCog,
-  UserX,
   Users,
-  MessagesSquare,
+  Building2,
+  FileText,
+  BarChart3,
+  Shield,
+  HelpCircle,
+  Wallet,
+  ArrowRightLeft,
+  Link2,
+  TrendingUp,
+  Vote,
+  Key,
   ShieldCheck,
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
+  UserCircle,
+  ChartPie,
+  CircleDollarSign,
+  Activity,
+  AlertTriangle,
+  Radio,
+  CheckSquare,
+  Package,
+  Network,
+  Download,
+  Upload,
+  Layers,
+  Target,
 } from 'lucide-react'
-import { ClerkLogo } from '@/assets/clerk-logo'
 import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
+    name: 'Admin',
+    email: 'admin@custodial-wallet.com',
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [
     {
-      name: 'Shadcn Admin',
-      logo: Command,
-      plan: 'Vite + ShadcnUI',
-    },
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
+      name: 'Custodial Wallet Admin',
+      logo: Wallet,
+      plan: 'Admin Panel',
     },
   ],
   navGroups: [
     {
-      title: 'General',
+      title: 'Overview',
       items: [
         {
           title: 'Dashboard',
           url: '/',
           icon: LayoutDashboard,
         },
+      ],
+    },
+    {
+      title: 'Wallet Management',
+      items: [
         {
-          title: 'Tasks',
-          url: '/tasks',
-          icon: ListTodo,
+          title: 'Wallets',
+          icon: Wallet,
+          items: [
+            {
+              title: 'All Wallets',
+              url: '/wallets',
+              icon: Wallet,
+            },
+            {
+              title: 'Wallet Analytics',
+              url: '/wallets/analytics',
+              icon: ChartPie,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: 'Transactions & Blockchain',
+      items: [
+        {
+          title: 'Transactions',
+          icon: ArrowRightLeft,
+          items: [
+            {
+              title: 'All Transactions',
+              url: '/transactions',
+              icon: ArrowRightLeft,
+            },
+            {
+              title: 'Batches',
+              url: '/transactions/batches',
+              icon: Package,
+            },
+            {
+              title: 'Approvals',
+              url: '/transactions/approvals',
+              icon: CheckSquare,
+            },
+          ],
         },
         {
-          title: 'Apps',
-          url: '/apps',
-          icon: Package,
+          title: 'Blockchain',
+          icon: Link2,
+          items: [
+            {
+              title: 'Networks',
+              url: '/blockchain',
+              icon: Network,
+            },
+            {
+              title: 'Deposits',
+              url: '/blockchain/deposits',
+              icon: Download,
+            },
+            {
+              title: 'Withdrawals',
+              url: '/blockchain/withdrawals',
+              icon: Upload,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: 'Security & Staking',
+      items: [
+        {
+          title: 'Security',
+          icon: Shield,
+          items: [
+            {
+              title: 'MPC Keys',
+              url: '/security/mpc-keys',
+              icon: Key,
+            },
+            {
+              title: 'Policies',
+              url: '/security/policies',
+              icon: ShieldCheck,
+            },
+            {
+              title: 'Sessions',
+              url: '/security/sessions',
+              icon: UserCircle,
+            },
+          ],
         },
         {
-          title: 'Chats',
-          url: '/chats',
-          badge: '3',
-          icon: MessagesSquare,
+          title: 'Staking',
+          icon: TrendingUp,
+          items: [
+            {
+              title: 'Pools',
+              url: '/staking/pools',
+              icon: Layers,
+            },
+            {
+              title: 'Positions',
+              url: '/staking/positions',
+              icon: Target,
+            },
+          ],
         },
+      ],
+    },
+    {
+      title: 'Governance',
+      items: [
+        {
+          title: 'Governance',
+          icon: Vote,
+          items: [
+            {
+              title: 'Proposals',
+              url: '/governance/proposals',
+              icon: FileText,
+            },
+            {
+              title: 'Delegations',
+              url: '/governance/delegations',
+              icon: Users,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: 'Users & Organizations',
+      items: [
         {
           title: 'Users',
           url: '/users',
           icon: Users,
         },
         {
-          title: 'Secured by Clerk',
-          icon: ClerkLogo,
-          items: [
-            {
-              title: 'Sign In',
-              url: '/clerk/sign-in',
-            },
-            {
-              title: 'Sign Up',
-              url: '/clerk/sign-up',
-            },
-            {
-              title: 'User Management',
-              url: '/clerk/user-management',
-            },
-          ],
+          title: 'Organizations',
+          url: '/organizations',
+          icon: Building2,
         },
       ],
     },
     {
-      title: 'Pages',
+      title: 'Analytics & Insights',
       items: [
         {
-          title: 'Auth',
-          icon: ShieldCheck,
+          title: 'Analytics',
+          icon: BarChart3,
           items: [
             {
-              title: 'Sign In',
-              url: '/sign-in',
+              title: 'Dashboard',
+              url: '/analytics',
+              icon: LayoutDashboard,
             },
             {
-              title: 'Sign In (2 Col)',
-              url: '/sign-in-2',
+              title: 'Financial',
+              url: '/analytics/financial',
+              icon: CircleDollarSign,
             },
             {
-              title: 'Sign Up',
-              url: '/sign-up',
+              title: 'User Behavior',
+              url: '/analytics/users',
+              icon: Activity,
             },
             {
-              title: 'Forgot Password',
-              url: '/forgot-password',
+              title: 'Performance',
+              url: '/analytics/performance',
+              icon: TrendingUp,
             },
             {
-              title: 'OTP',
-              url: '/otp',
+              title: 'Risk',
+              url: '/analytics/risk',
+              icon: AlertTriangle,
+            },
+            {
+              title: 'Real-Time',
+              url: '/analytics/real-time',
+              icon: Radio,
             },
           ],
         },
         {
-          title: 'Errors',
-          icon: Bug,
-          items: [
-            {
-              title: 'Unauthorized',
-              url: '/errors/unauthorized',
-              icon: Lock,
-            },
-            {
-              title: 'Forbidden',
-              url: '/errors/forbidden',
-              icon: UserX,
-            },
-            {
-              title: 'Not Found',
-              url: '/errors/not-found',
-              icon: FileX,
-            },
-            {
-              title: 'Internal Server Error',
-              url: '/errors/internal-server-error',
-              icon: ServerOff,
-            },
-            {
-              title: 'Maintenance Error',
-              url: '/errors/maintenance-error',
-              icon: Construction,
-            },
-          ],
+          title: 'Audit Logs',
+          url: '/audit-logs',
+          icon: FileText,
         },
       ],
     },
     {
-      title: 'Other',
+      title: 'Configuration',
       items: [
         {
           title: 'Settings',

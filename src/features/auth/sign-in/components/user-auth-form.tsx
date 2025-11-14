@@ -1,3 +1,8 @@
+/**
+ * User Authentication Form
+ * Sign-in form with JWT authentication via API
+ */
+
 import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
@@ -5,9 +10,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Loader2, LogIn } from 'lucide-react'
 import { toast } from 'sonner'
-import { IconFacebook, IconGithub } from '@/assets/brand-icons'
 import { useAuthStore } from '@/stores/auth-store'
-import { sleep, cn } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -19,19 +23,33 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import apiClient from '@/infrastructure/api/client'
+import { API_ENDPOINTS } from '@/infrastructure/api/endpoints'
 
 const formSchema = z.object({
-  email: z.email({
-    error: (iss) => (iss.input === '' ? 'Please enter your email' : undefined),
-  }),
-  password: z
-    .string()
-    .min(1, 'Please enter your password')
-    .min(7, 'Password must be at least 7 characters long'),
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Please enter your password'),
 })
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLFormElement> {
   redirectTo?: string
+}
+
+/**
+ * Login response from API
+ * Matches backend UserUseCase.Login response
+ */
+interface LoginResponse {
+  access_token: string
+  refresh_token: string
+  user: {
+    id: string
+    email: string
+    organization_name: string
+    status: string
+    mfa_enabled: boolean
+  }
+  requires_mfa: boolean
 }
 
 export function UserAuthForm({
@@ -51,34 +69,76 @@ export function UserAuthForm({
     },
   })
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsLoading(true)
 
-    toast.promise(sleep(2000), {
-      loading: 'Signing in...',
-      success: () => {
-        setIsLoading(false)
-
-        // Mock successful authentication with expiry computed at success time
-        const mockUser = {
-          accountNo: 'ACC001',
+    try {
+      // Call login API endpoint
+      const response = await apiClient.post<LoginResponse>(
+        API_ENDPOINTS.auth.login,
+        {
           email: data.email,
-          role: ['user'],
-          exp: Date.now() + 24 * 60 * 60 * 1000, // 24 hours from now
+          password: data.password,
         }
+      )
 
-        // Set user and access token
-        auth.setUser(mockUser)
-        auth.setAccessToken('mock-access-token')
+      console.log('Login response:', response.data)
 
-        // Redirect to the stored location or default to dashboard
-        const targetPath = redirectTo || '/'
-        navigate({ to: targetPath, replace: true })
+      // Handle wrapped response structure
+      // Backend may return: { success: true, data: { access_token, ... } }
+      // or directly: { access_token, ... }
+      const responseData = response.data.data || response.data
+      const { access_token, user, requires_mfa } = responseData
 
-        return `Welcome back, ${data.email}!`
-      },
-      error: 'Error',
-    })
+      // Validate response
+      if (!access_token) {
+        console.error('No access_token in response:', response.data)
+        toast.error('Invalid server response: missing access token')
+        setIsLoading(false)
+        return
+      }
+
+      // Check if MFA is required
+      if (requires_mfa) {
+        toast.error('MFA is required. Please contact your administrator.')
+        setIsLoading(false)
+        return
+      }
+
+      console.log('Access token received:', access_token.substring(0, 20) + '...')
+
+      // Store token in auth store (will decode and extract role automatically)
+      auth.setAccessToken(access_token)
+
+      // Verify user has admin role (decoded from JWT)
+      if (!auth.isAdmin()) {
+        toast.error('Access denied. Admin role required.')
+        auth.reset()
+        setIsLoading(false)
+        return
+      }
+
+      toast.success(`Welcome back, ${user.email}!`)
+
+      // Redirect to dashboard or stored location
+      const targetPath = redirectTo || '/'
+      navigate({ to: targetPath, replace: true })
+    } catch (error: any) {
+      console.error('Login error:', error)
+
+      // Handle specific error messages
+      if (error.response?.status === 401) {
+        toast.error('Invalid email or password')
+      } else if (error.response?.status === 403) {
+        toast.error('Access forbidden. Admin role required.')
+      } else if (error.response?.data?.error) {
+        toast.error(error.response.data.error)
+      } else {
+        toast.error('Login failed. Please try again.')
+      }
+
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -95,7 +155,13 @@ export function UserAuthForm({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder='name@example.com' {...field} />
+                <Input
+                  placeholder='admin@example.com'
+                  type='email'
+                  autoComplete='email'
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -108,7 +174,12 @@ export function UserAuthForm({
             <FormItem className='relative'>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <PasswordInput placeholder='********' {...field} />
+                <PasswordInput
+                  placeholder='Enter your password'
+                  autoComplete='current-password'
+                  disabled={isLoading}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
               <Link
@@ -120,30 +191,10 @@ export function UserAuthForm({
             </FormItem>
           )}
         />
-        <Button className='mt-2' disabled={isLoading}>
+        <Button className='mt-2' disabled={isLoading} type='submit'>
           {isLoading ? <Loader2 className='animate-spin' /> : <LogIn />}
           Sign in
         </Button>
-
-        <div className='relative my-2'>
-          <div className='absolute inset-0 flex items-center'>
-            <span className='w-full border-t' />
-          </div>
-          <div className='relative flex justify-center text-xs uppercase'>
-            <span className='bg-background text-muted-foreground px-2'>
-              Or continue with
-            </span>
-          </div>
-        </div>
-
-        <div className='grid grid-cols-2 gap-2'>
-          <Button variant='outline' type='button' disabled={isLoading}>
-            <IconGithub className='h-4 w-4' /> GitHub
-          </Button>
-          <Button variant='outline' type='button' disabled={isLoading}>
-            <IconFacebook className='h-4 w-4' /> Facebook
-          </Button>
-        </div>
       </form>
     </Form>
   )

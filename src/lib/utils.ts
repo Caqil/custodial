@@ -58,3 +58,55 @@ export function getPageNumbers(currentPage: number, totalPages: number) {
 
   return rangeWithDots
 }
+
+/**
+ * Format ISO date string to readable format
+ * @param isoString - ISO 8601 date string
+ * @param includeTime - Whether to include time in output (default: true)
+ * @returns Formatted date string
+ */
+export function formatDate(isoString: string, includeTime = true): string {
+  const date = new Date(isoString)
+
+  if (isNaN(date.getTime())) {
+    return 'Invalid date'
+  }
+
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  }
+
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit',
+  }
+
+  const formatter = new Intl.DateTimeFormat('en-US', {
+    ...dateOptions,
+    ...(includeTime ? timeOptions : {}),
+  })
+
+  return formatter.format(date)
+}
+
+/**
+ * Format currency amount with proper decimal places
+ * @param amount - Amount as string or number
+ * @param currency - Currency code (e.g., 'USD', 'BTC')
+ * @returns Formatted currency string
+ */
+export function formatCurrency(amount: string | number, currency = 'USD'): string {
+  const numAmount = typeof amount === 'string' ? parseFloat(amount) : amount
+
+  if (isNaN(numAmount)) {
+    return '0.00'
+  }
+
+  // Crypto currencies typically show more decimal places
+  const isCrypto = ['BTC', 'ETH', 'SOL', 'MATIC'].includes(currency.toUpperCase())
+  const decimals = isCrypto ? 8 : 2
+
+  return numAmount.toFixed(decimals)
+}

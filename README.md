@@ -1,25 +1,41 @@
-# Shadcn Admin Dashboard
+# Custodial Wallet Admin Panel
 
-Admin Dashboard UI crafted with Shadcn and Vite. Built with responsiveness and accessibility in mind.
+Admin panel for the Custodial Wallet system, built with clean architecture principles. Manages users, organizations, wallets, transactions, and provides comprehensive analytics and reporting capabilities.
 
-![alt text](public/images/shadcn-admin.png)
+## Project Status
 
-[![Sponsored by Clerk](https://img.shields.io/badge/Sponsored%20by-Clerk-5b6ee1?logo=clerk)](https://go.clerk.com/GttUAaK)
+✅ **Clean Architecture Setup Complete** - November 14, 2024
 
-I've been creating dashboard UIs at work and for my personal projects. I always wanted to make a reusable collection of dashboard UI for future projects; and here it is now. While I've created a few custom components, some of the code is directly adapted from ShadcnUI examples.
+This project has been restructured to follow clean architecture principles with strict separation of concerns across Core, Infrastructure, and Presentation layers.
 
-> This is not a starter project (template) though. I'll probably make one in the future.
+## Documentation
+
+- **[Setup Summary](./SETUP_SUMMARY.md)** - Complete overview of setup and changes
+- **[Architecture Guide](./ARCHITECTURE.md)** - Clean architecture documentation
+- **[Backend API Docs](../ADMIN_PANEL_DOCUMENTATION.md)** - Full API documentation
+- **[API Quick Reference](../ADMIN_API_QUICK_REFERENCE.md)** - Quick endpoint reference
 
 ## Features
 
+### Current Features
+- User Management (list, details, status updates, password reset, delete)
+- Dashboard Analytics
+- Settings Management
 - Light/dark mode
-- Responsive
-- Accessible
-- With built-in Sidebar component
+- Responsive design
+- Accessible UI components
 - Global search command
-- 10+ pages
-- Extra custom components
 - RTL support
+
+### Upcoming Features (Roadmap)
+- Organizations Management
+- Transaction Reports (with CSV export)
+- Balance Reports
+- Staking Reports
+- Governance Reports
+- Analytics Dashboard (volume, AUC, TVL, user growth)
+- Audit Logs Viewer
+- System Health Monitoring
 
 <details>
 <summary>Customized Components (click to expand)</summary>
@@ -72,47 +88,115 @@ If you want to update components using the Shadcn CLI (e.g., `npx shadcn@latest 
 
 **Icons:** [Lucide Icons](https://lucide.dev/icons/), [Tabler Icons](https://tabler.io/icons) (Brand icons only)
 
-**Auth (partial):** [Clerk](https://go.clerk.com/GttUAaK)
+**Authentication:** Custom JWT-based auth (admin role validation)
+
+**State Management:** [Zustand](https://zustand.docs.pmnd.rs/) + [TanStack Query](https://tanstack.com/query/latest)
+
+**HTTP Client:** [Axios](https://axios-http.com/) with interceptors
 
 ## Run Locally
 
-Clone the project
+### Prerequisites
+- Node.js 18+ and npm/pnpm
+- Backend API running (see parent directory)
+
+### Setup
+
+1. Install dependencies
 
 ```bash
-  git clone https://github.com/satnaing/shadcn-admin.git
+npm install
 ```
 
-Go to the project directory
+2. Configure environment
 
 ```bash
-  cd shadcn-admin
+cp .env.example .env
+# Update VITE_API_BASE_URL if backend is not on localhost:8080
 ```
 
-Install dependencies
+3. Start development server
 
 ```bash
-  pnpm install
+npm run dev
 ```
 
-Start the server
+4. Build for production
 
 ```bash
-  pnpm run dev
+npm run build
 ```
 
-## Sponsoring this project ❤️
+### Environment Variables
 
-If you find this project helpful or use this in your own work, consider [sponsoring me](https://github.com/sponsors/satnaing) to support development and maintenance. You can [buy me a coffee](https://buymeacoffee.com/satnaing) as well. Don’t worry, every penny helps. Thank you! 🙏
+```env
+VITE_API_BASE_URL=http://localhost:8080/api/v1
+VITE_APP_NAME=Custodial Wallet Admin
+```
 
-For questions or sponsorship inquiries, feel free to reach out at [satnaingdev@gmail.com](mailto:satnaingdev@gmail.com).
+## Architecture
 
-### Current Sponsor
+This project follows Clean Architecture principles with strict separation of concerns:
 
-- [Clerk](https://go.clerk.com/GttUAaK) - authentication and user management for the modern web
+```
+src/
+├── core/                    # Business logic & domain models
+│   ├── entities/           # Domain models (TypeScript interfaces)
+│   ├── repositories/       # Repository interfaces
+│   └── use-cases/          # Business logic (to be implemented)
+├── infrastructure/         # External implementations
+│   └── api/               # API client & repository implementations
+├── features/              # UI features & components
+└── routes/                # TanStack Router routes
+```
 
-## Author
+### Key Design Patterns
+- Repository Pattern - Abstracts data access
+- Dependency Inversion - Core layer has no external dependencies
+- Clean Architecture - Clear layer boundaries
+- Type Safety - Strict TypeScript, no `any` types
 
-Crafted with 🤍 by [@satnaing](https://github.com/satnaing)
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for detailed documentation.
+
+## Usage Example
+
+### Using Repositories with React Query
+
+```typescript
+import { useQuery } from '@tanstack/react-query'
+import { userRepository } from '@/infrastructure/api'
+
+function UserList() {
+  const { data, isLoading } = useQuery({
+    queryKey: ['users', { offset: 0, limit: 50 }],
+    queryFn: () => userRepository.list({ offset: 0, limit: 50 }),
+  })
+
+  if (isLoading) return <div>Loading...</div>
+
+  return (
+    <div>
+      {data?.users.map(user => (
+        <div key={user.id}>{user.email}</div>
+      ))}
+    </div>
+  )
+}
+```
+
+## Contributing
+
+This project uses strict TypeScript and follows clean architecture principles. When contributing:
+
+1. Follow the existing architecture patterns
+2. Use TypeScript strict mode (no `any` types)
+3. Add JSDoc comments to interfaces
+4. Write unit tests for new repositories
+5. Update documentation as needed
+
+## Credits
+
+UI Template: [Shadcn Admin](https://github.com/satnaing/shadcn-admin) by [@satnaing](https://github.com/satnaing)
 
 ## License
 

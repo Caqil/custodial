@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ClerkRouteRouteImport } from './routes/clerk/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as errors503RouteImport } from './routes/(errors)/503'
@@ -22,29 +21,45 @@ import { Route as authSignIn2RouteImport } from './routes/(auth)/sign-in-2'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as authOtpRouteImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordRouteImport } from './routes/(auth)/forgot-password'
-import { Route as ClerkAuthenticatedRouteRouteImport } from './routes/clerk/_authenticated/route'
-import { Route as ClerkauthRouteRouteImport } from './routes/clerk/(auth)/route'
 import { Route as AuthenticatedSettingsRouteRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedWalletsIndexRouteImport } from './routes/_authenticated/wallets/index'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
-import { Route as AuthenticatedTasksIndexRouteImport } from './routes/_authenticated/tasks/index'
+import { Route as AuthenticatedTransactionsIndexRouteImport } from './routes/_authenticated/transactions/index'
+import { Route as AuthenticatedStakingIndexRouteImport } from './routes/_authenticated/staking/index'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSecurityIndexRouteImport } from './routes/_authenticated/security/index'
+import { Route as AuthenticatedReportsIndexRouteImport } from './routes/_authenticated/reports/index'
+import { Route as AuthenticatedOrganizationsIndexRouteImport } from './routes/_authenticated/organizations/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
-import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
-import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authenticated/apps/index'
-import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
-import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
-import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
+import { Route as AuthenticatedGovernanceIndexRouteImport } from './routes/_authenticated/governance/index'
+import { Route as AuthenticatedBlockchainIndexRouteImport } from './routes/_authenticated/blockchain/index'
+import { Route as AuthenticatedAuditLogsIndexRouteImport } from './routes/_authenticated/audit-logs/index'
+import { Route as AuthenticatedAnalyticsIndexRouteImport } from './routes/_authenticated/analytics/index'
+import { Route as AuthenticatedWalletsAnalyticsRouteImport } from './routes/_authenticated/wallets/analytics'
+import { Route as AuthenticatedTransactionsBatchesRouteImport } from './routes/_authenticated/transactions/batches'
+import { Route as AuthenticatedTransactionsApprovalsRouteImport } from './routes/_authenticated/transactions/approvals'
+import { Route as AuthenticatedStakingPositionsRouteImport } from './routes/_authenticated/staking/positions'
+import { Route as AuthenticatedStakingPoolsRouteImport } from './routes/_authenticated/staking/pools'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedSecuritySessionsRouteImport } from './routes/_authenticated/security/sessions'
+import { Route as AuthenticatedSecurityPoliciesRouteImport } from './routes/_authenticated/security/policies'
+import { Route as AuthenticatedSecurityMpcKeysRouteImport } from './routes/_authenticated/security/mpc-keys'
+import { Route as AuthenticatedGovernanceProposalsRouteImport } from './routes/_authenticated/governance/proposals'
+import { Route as AuthenticatedGovernanceDelegationsRouteImport } from './routes/_authenticated/governance/delegations'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedBlockchainWithdrawalsRouteImport } from './routes/_authenticated/blockchain/withdrawals'
+import { Route as AuthenticatedBlockchainDepositsRouteImport } from './routes/_authenticated/blockchain/deposits'
+import { Route as AuthenticatedAnalyticsUsersRouteImport } from './routes/_authenticated/analytics/users'
+import { Route as AuthenticatedAnalyticsRiskRouteImport } from './routes/_authenticated/analytics/risk'
+import { Route as AuthenticatedAnalyticsRealTimeRouteImport } from './routes/_authenticated/analytics/real-time'
+import { Route as AuthenticatedAnalyticsPerformanceRouteImport } from './routes/_authenticated/analytics/performance'
+import { Route as AuthenticatedAnalyticsFinancialRouteImport } from './routes/_authenticated/analytics/financial'
+import { Route as AuthenticatedGovernanceProposalsIdRouteImport } from './routes/_authenticated/governance/proposals.$id'
+import { Route as AuthenticatedGovernanceDelegationsIdRouteImport } from './routes/_authenticated/governance/delegations.$id'
 
-const ClerkRouteRoute = ClerkRouteRouteImport.update({
-  id: '/clerk',
-  path: '/clerk',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -104,18 +119,16 @@ const authForgotPasswordRoute = authForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClerkAuthenticatedRouteRoute = ClerkAuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => ClerkRouteRoute,
-} as any)
-const ClerkauthRouteRoute = ClerkauthRouteRouteImport.update({
-  id: '/(auth)',
-  getParentRoute: () => ClerkRouteRoute,
-} as any)
 const AuthenticatedSettingsRouteRoute =
   AuthenticatedSettingsRouteRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedWalletsIndexRoute =
+  AuthenticatedWalletsIndexRouteImport.update({
+    id: '/wallets/',
+    path: '/wallets/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
@@ -123,16 +136,41 @@ const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedTasksIndexRoute = AuthenticatedTasksIndexRouteImport.update({
-  id: '/tasks/',
-  path: '/tasks/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
+const AuthenticatedTransactionsIndexRoute =
+  AuthenticatedTransactionsIndexRouteImport.update({
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakingIndexRoute =
+  AuthenticatedStakingIndexRouteImport.update({
+    id: '/staking/',
+    path: '/staking/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
+const AuthenticatedSecurityIndexRoute =
+  AuthenticatedSecurityIndexRouteImport.update({
+    id: '/security/',
+    path: '/security/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedReportsIndexRoute =
+  AuthenticatedReportsIndexRouteImport.update({
+    id: '/reports/',
+    path: '/reports/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedOrganizationsIndexRoute =
+  AuthenticatedOrganizationsIndexRouteImport.update({
+    id: '/organizations/',
+    path: '/organizations/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedHelpCenterIndexRoute =
   AuthenticatedHelpCenterIndexRouteImport.update({
@@ -140,32 +178,60 @@ const AuthenticatedHelpCenterIndexRoute =
     path: '/help-center/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedChatsIndexRoute = AuthenticatedChatsIndexRouteImport.update({
-  id: '/chats/',
-  path: '/chats/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexRouteImport.update({
-  id: '/apps/',
-  path: '/apps/',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const ClerkAuthenticatedUserManagementRoute =
-  ClerkAuthenticatedUserManagementRouteImport.update({
-    id: '/user-management',
-    path: '/user-management',
-    getParentRoute: () => ClerkAuthenticatedRouteRoute,
+const AuthenticatedGovernanceIndexRoute =
+  AuthenticatedGovernanceIndexRouteImport.update({
+    id: '/governance/',
+    path: '/governance/',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const ClerkauthSignUpRoute = ClerkauthSignUpRouteImport.update({
-  id: '/sign-up',
-  path: '/sign-up',
-  getParentRoute: () => ClerkauthRouteRoute,
-} as any)
-const ClerkauthSignInRoute = ClerkauthSignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => ClerkauthRouteRoute,
-} as any)
+const AuthenticatedBlockchainIndexRoute =
+  AuthenticatedBlockchainIndexRouteImport.update({
+    id: '/blockchain/',
+    path: '/blockchain/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAuditLogsIndexRoute =
+  AuthenticatedAuditLogsIndexRouteImport.update({
+    id: '/audit-logs/',
+    path: '/audit-logs/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsIndexRoute =
+  AuthenticatedAnalyticsIndexRouteImport.update({
+    id: '/analytics/',
+    path: '/analytics/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedWalletsAnalyticsRoute =
+  AuthenticatedWalletsAnalyticsRouteImport.update({
+    id: '/wallets/analytics',
+    path: '/wallets/analytics',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTransactionsBatchesRoute =
+  AuthenticatedTransactionsBatchesRouteImport.update({
+    id: '/transactions/batches',
+    path: '/transactions/batches',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedTransactionsApprovalsRoute =
+  AuthenticatedTransactionsApprovalsRouteImport.update({
+    id: '/transactions/approvals',
+    path: '/transactions/approvals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakingPositionsRoute =
+  AuthenticatedStakingPositionsRouteImport.update({
+    id: '/staking/positions',
+    path: '/staking/positions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakingPoolsRoute =
+  AuthenticatedStakingPoolsRouteImport.update({
+    id: '/staking/pools',
+    path: '/staking/pools',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsNotificationsRoute =
   AuthenticatedSettingsNotificationsRouteImport.update({
     id: '/notifications',
@@ -190,17 +256,99 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedSecuritySessionsRoute =
+  AuthenticatedSecuritySessionsRouteImport.update({
+    id: '/security/sessions',
+    path: '/security/sessions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSecurityPoliciesRoute =
+  AuthenticatedSecurityPoliciesRouteImport.update({
+    id: '/security/policies',
+    path: '/security/policies',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSecurityMpcKeysRoute =
+  AuthenticatedSecurityMpcKeysRouteImport.update({
+    id: '/security/mpc-keys',
+    path: '/security/mpc-keys',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGovernanceProposalsRoute =
+  AuthenticatedGovernanceProposalsRouteImport.update({
+    id: '/governance/proposals',
+    path: '/governance/proposals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGovernanceDelegationsRoute =
+  AuthenticatedGovernanceDelegationsRouteImport.update({
+    id: '/governance/delegations',
+    path: '/governance/delegations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedErrorsErrorRoute =
   AuthenticatedErrorsErrorRouteImport.update({
     id: '/errors/$error',
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedBlockchainWithdrawalsRoute =
+  AuthenticatedBlockchainWithdrawalsRouteImport.update({
+    id: '/blockchain/withdrawals',
+    path: '/blockchain/withdrawals',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBlockchainDepositsRoute =
+  AuthenticatedBlockchainDepositsRouteImport.update({
+    id: '/blockchain/deposits',
+    path: '/blockchain/deposits',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsUsersRoute =
+  AuthenticatedAnalyticsUsersRouteImport.update({
+    id: '/analytics/users',
+    path: '/analytics/users',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsRiskRoute =
+  AuthenticatedAnalyticsRiskRouteImport.update({
+    id: '/analytics/risk',
+    path: '/analytics/risk',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsRealTimeRoute =
+  AuthenticatedAnalyticsRealTimeRouteImport.update({
+    id: '/analytics/real-time',
+    path: '/analytics/real-time',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsPerformanceRoute =
+  AuthenticatedAnalyticsPerformanceRouteImport.update({
+    id: '/analytics/performance',
+    path: '/analytics/performance',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAnalyticsFinancialRoute =
+  AuthenticatedAnalyticsFinancialRouteImport.update({
+    id: '/analytics/financial',
+    path: '/analytics/financial',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedGovernanceProposalsIdRoute =
+  AuthenticatedGovernanceProposalsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedGovernanceProposalsRoute,
+  } as any)
+const AuthenticatedGovernanceDelegationsIdRoute =
+  AuthenticatedGovernanceDelegationsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedGovernanceDelegationsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/clerk/': typeof ClerkauthRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -212,23 +360,45 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/analytics/financial': typeof AuthenticatedAnalyticsFinancialRoute
+  '/analytics/performance': typeof AuthenticatedAnalyticsPerformanceRoute
+  '/analytics/real-time': typeof AuthenticatedAnalyticsRealTimeRoute
+  '/analytics/risk': typeof AuthenticatedAnalyticsRiskRoute
+  '/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
+  '/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
+  '/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
+  '/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
+  '/security/mpc-keys': typeof AuthenticatedSecurityMpcKeysRoute
+  '/security/policies': typeof AuthenticatedSecurityPoliciesRoute
+  '/security/sessions': typeof AuthenticatedSecuritySessionsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/clerk/sign-in': typeof ClerkauthSignInRoute
-  '/clerk/sign-up': typeof ClerkauthSignUpRoute
-  '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
-  '/chats': typeof AuthenticatedChatsIndexRoute
+  '/staking/pools': typeof AuthenticatedStakingPoolsRoute
+  '/staking/positions': typeof AuthenticatedStakingPositionsRoute
+  '/transactions/approvals': typeof AuthenticatedTransactionsApprovalsRoute
+  '/transactions/batches': typeof AuthenticatedTransactionsBatchesRoute
+  '/wallets/analytics': typeof AuthenticatedWalletsAnalyticsRoute
+  '/analytics': typeof AuthenticatedAnalyticsIndexRoute
+  '/audit-logs': typeof AuthenticatedAuditLogsIndexRoute
+  '/blockchain': typeof AuthenticatedBlockchainIndexRoute
+  '/governance': typeof AuthenticatedGovernanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/organizations': typeof AuthenticatedOrganizationsIndexRoute
+  '/reports': typeof AuthenticatedReportsIndexRoute
+  '/security': typeof AuthenticatedSecurityIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/staking': typeof AuthenticatedStakingIndexRoute
+  '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/wallets': typeof AuthenticatedWalletsIndexRoute
+  '/governance/delegations/$id': typeof AuthenticatedGovernanceDelegationsIdRoute
+  '/governance/proposals/$id': typeof AuthenticatedGovernanceProposalsIdRoute
 }
 export interface FileRoutesByTo {
-  '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -240,28 +410,48 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/analytics/financial': typeof AuthenticatedAnalyticsFinancialRoute
+  '/analytics/performance': typeof AuthenticatedAnalyticsPerformanceRoute
+  '/analytics/real-time': typeof AuthenticatedAnalyticsRealTimeRoute
+  '/analytics/risk': typeof AuthenticatedAnalyticsRiskRoute
+  '/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
+  '/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
+  '/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
+  '/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
+  '/security/mpc-keys': typeof AuthenticatedSecurityMpcKeysRoute
+  '/security/policies': typeof AuthenticatedSecurityPoliciesRoute
+  '/security/sessions': typeof AuthenticatedSecuritySessionsRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/clerk/sign-in': typeof ClerkauthSignInRoute
-  '/clerk/sign-up': typeof ClerkauthSignUpRoute
-  '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/apps': typeof AuthenticatedAppsIndexRoute
-  '/chats': typeof AuthenticatedChatsIndexRoute
+  '/staking/pools': typeof AuthenticatedStakingPoolsRoute
+  '/staking/positions': typeof AuthenticatedStakingPositionsRoute
+  '/transactions/approvals': typeof AuthenticatedTransactionsApprovalsRoute
+  '/transactions/batches': typeof AuthenticatedTransactionsBatchesRoute
+  '/wallets/analytics': typeof AuthenticatedWalletsAnalyticsRoute
+  '/analytics': typeof AuthenticatedAnalyticsIndexRoute
+  '/audit-logs': typeof AuthenticatedAuditLogsIndexRoute
+  '/blockchain': typeof AuthenticatedBlockchainIndexRoute
+  '/governance': typeof AuthenticatedGovernanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
+  '/organizations': typeof AuthenticatedOrganizationsIndexRoute
+  '/reports': typeof AuthenticatedReportsIndexRoute
+  '/security': typeof AuthenticatedSecurityIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
-  '/tasks': typeof AuthenticatedTasksIndexRoute
+  '/staking': typeof AuthenticatedStakingIndexRoute
+  '/transactions': typeof AuthenticatedTransactionsIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/wallets': typeof AuthenticatedWalletsIndexRoute
+  '/governance/delegations/$id': typeof AuthenticatedGovernanceDelegationsIdRoute
+  '/governance/proposals/$id': typeof AuthenticatedGovernanceProposalsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/clerk': typeof ClerkRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
-  '/clerk/(auth)': typeof ClerkauthRouteRouteWithChildren
-  '/clerk/_authenticated': typeof ClerkAuthenticatedRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
@@ -273,27 +463,48 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/analytics/financial': typeof AuthenticatedAnalyticsFinancialRoute
+  '/_authenticated/analytics/performance': typeof AuthenticatedAnalyticsPerformanceRoute
+  '/_authenticated/analytics/real-time': typeof AuthenticatedAnalyticsRealTimeRoute
+  '/_authenticated/analytics/risk': typeof AuthenticatedAnalyticsRiskRoute
+  '/_authenticated/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
+  '/_authenticated/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
+  '/_authenticated/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
+  '/_authenticated/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
+  '/_authenticated/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
+  '/_authenticated/security/mpc-keys': typeof AuthenticatedSecurityMpcKeysRoute
+  '/_authenticated/security/policies': typeof AuthenticatedSecurityPoliciesRoute
+  '/_authenticated/security/sessions': typeof AuthenticatedSecuritySessionsRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
-  '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
-  '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
-  '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
-  '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
+  '/_authenticated/staking/pools': typeof AuthenticatedStakingPoolsRoute
+  '/_authenticated/staking/positions': typeof AuthenticatedStakingPositionsRoute
+  '/_authenticated/transactions/approvals': typeof AuthenticatedTransactionsApprovalsRoute
+  '/_authenticated/transactions/batches': typeof AuthenticatedTransactionsBatchesRoute
+  '/_authenticated/wallets/analytics': typeof AuthenticatedWalletsAnalyticsRoute
+  '/_authenticated/analytics/': typeof AuthenticatedAnalyticsIndexRoute
+  '/_authenticated/audit-logs/': typeof AuthenticatedAuditLogsIndexRoute
+  '/_authenticated/blockchain/': typeof AuthenticatedBlockchainIndexRoute
+  '/_authenticated/governance/': typeof AuthenticatedGovernanceIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
+  '/_authenticated/organizations/': typeof AuthenticatedOrganizationsIndexRoute
+  '/_authenticated/reports/': typeof AuthenticatedReportsIndexRoute
+  '/_authenticated/security/': typeof AuthenticatedSecurityIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
-  '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
+  '/_authenticated/staking/': typeof AuthenticatedStakingIndexRoute
+  '/_authenticated/transactions/': typeof AuthenticatedTransactionsIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/wallets/': typeof AuthenticatedWalletsIndexRoute
+  '/_authenticated/governance/delegations/$id': typeof AuthenticatedGovernanceDelegationsIdRoute
+  '/_authenticated/governance/proposals/$id': typeof AuthenticatedGovernanceProposalsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/clerk'
     | '/settings'
-    | '/clerk/'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -305,23 +516,45 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/analytics/financial'
+    | '/analytics/performance'
+    | '/analytics/real-time'
+    | '/analytics/risk'
+    | '/analytics/users'
+    | '/blockchain/deposits'
+    | '/blockchain/withdrawals'
     | '/errors/$error'
+    | '/governance/delegations'
+    | '/governance/proposals'
+    | '/security/mpc-keys'
+    | '/security/policies'
+    | '/security/sessions'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
-    | '/clerk/sign-in'
-    | '/clerk/sign-up'
-    | '/clerk/user-management'
-    | '/apps'
-    | '/chats'
+    | '/staking/pools'
+    | '/staking/positions'
+    | '/transactions/approvals'
+    | '/transactions/batches'
+    | '/wallets/analytics'
+    | '/analytics'
+    | '/audit-logs'
+    | '/blockchain'
+    | '/governance'
     | '/help-center'
+    | '/organizations'
+    | '/reports'
+    | '/security'
     | '/settings/'
-    | '/tasks'
+    | '/staking'
+    | '/transactions'
     | '/users'
+    | '/wallets'
+    | '/governance/delegations/$id'
+    | '/governance/proposals/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/clerk'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -333,27 +566,47 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/analytics/financial'
+    | '/analytics/performance'
+    | '/analytics/real-time'
+    | '/analytics/risk'
+    | '/analytics/users'
+    | '/blockchain/deposits'
+    | '/blockchain/withdrawals'
     | '/errors/$error'
+    | '/governance/delegations'
+    | '/governance/proposals'
+    | '/security/mpc-keys'
+    | '/security/policies'
+    | '/security/sessions'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
-    | '/clerk/sign-in'
-    | '/clerk/sign-up'
-    | '/clerk/user-management'
-    | '/apps'
-    | '/chats'
+    | '/staking/pools'
+    | '/staking/positions'
+    | '/transactions/approvals'
+    | '/transactions/batches'
+    | '/wallets/analytics'
+    | '/analytics'
+    | '/audit-logs'
+    | '/blockchain'
+    | '/governance'
     | '/help-center'
+    | '/organizations'
+    | '/reports'
+    | '/security'
     | '/settings'
-    | '/tasks'
+    | '/staking'
+    | '/transactions'
     | '/users'
+    | '/wallets'
+    | '/governance/delegations/$id'
+    | '/governance/proposals/$id'
   id:
     | '__root__'
     | '/_authenticated'
-    | '/clerk'
     | '/_authenticated/settings'
-    | '/clerk/(auth)'
-    | '/clerk/_authenticated'
     | '/(auth)/forgot-password'
     | '/(auth)/otp'
     | '/(auth)/sign-in'
@@ -365,25 +618,47 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/analytics/financial'
+    | '/_authenticated/analytics/performance'
+    | '/_authenticated/analytics/real-time'
+    | '/_authenticated/analytics/risk'
+    | '/_authenticated/analytics/users'
+    | '/_authenticated/blockchain/deposits'
+    | '/_authenticated/blockchain/withdrawals'
     | '/_authenticated/errors/$error'
+    | '/_authenticated/governance/delegations'
+    | '/_authenticated/governance/proposals'
+    | '/_authenticated/security/mpc-keys'
+    | '/_authenticated/security/policies'
+    | '/_authenticated/security/sessions'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
-    | '/clerk/(auth)/sign-in'
-    | '/clerk/(auth)/sign-up'
-    | '/clerk/_authenticated/user-management'
-    | '/_authenticated/apps/'
-    | '/_authenticated/chats/'
+    | '/_authenticated/staking/pools'
+    | '/_authenticated/staking/positions'
+    | '/_authenticated/transactions/approvals'
+    | '/_authenticated/transactions/batches'
+    | '/_authenticated/wallets/analytics'
+    | '/_authenticated/analytics/'
+    | '/_authenticated/audit-logs/'
+    | '/_authenticated/blockchain/'
+    | '/_authenticated/governance/'
     | '/_authenticated/help-center/'
+    | '/_authenticated/organizations/'
+    | '/_authenticated/reports/'
+    | '/_authenticated/security/'
     | '/_authenticated/settings/'
-    | '/_authenticated/tasks/'
+    | '/_authenticated/staking/'
+    | '/_authenticated/transactions/'
     | '/_authenticated/users/'
+    | '/_authenticated/wallets/'
+    | '/_authenticated/governance/delegations/$id'
+    | '/_authenticated/governance/proposals/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  ClerkRouteRoute: typeof ClerkRouteRouteWithChildren
   authForgotPasswordRoute: typeof authForgotPasswordRoute
   authOtpRoute: typeof authOtpRoute
   authSignInRoute: typeof authSignInRoute
@@ -398,13 +673,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/clerk': {
-      id: '/clerk'
-      path: '/clerk'
-      fullPath: '/clerk'
-      preLoaderRoute: typeof ClerkRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -489,25 +757,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/clerk/_authenticated': {
-      id: '/clerk/_authenticated'
-      path: ''
-      fullPath: '/clerk'
-      preLoaderRoute: typeof ClerkAuthenticatedRouteRouteImport
-      parentRoute: typeof ClerkRouteRoute
-    }
-    '/clerk/(auth)': {
-      id: '/clerk/(auth)'
-      path: '/'
-      fullPath: '/clerk/'
-      preLoaderRoute: typeof ClerkauthRouteRouteImport
-      parentRoute: typeof ClerkRouteRoute
-    }
     '/_authenticated/settings': {
       id: '/_authenticated/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/wallets/': {
+      id: '/_authenticated/wallets/'
+      path: '/wallets'
+      fullPath: '/wallets'
+      preLoaderRoute: typeof AuthenticatedWalletsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/users/': {
@@ -517,11 +778,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/tasks/': {
-      id: '/_authenticated/tasks/'
-      path: '/tasks'
-      fullPath: '/tasks'
-      preLoaderRoute: typeof AuthenticatedTasksIndexRouteImport
+    '/_authenticated/transactions/': {
+      id: '/_authenticated/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof AuthenticatedTransactionsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staking/': {
+      id: '/_authenticated/staking/'
+      path: '/staking'
+      fullPath: '/staking'
+      preLoaderRoute: typeof AuthenticatedStakingIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/': {
@@ -531,6 +799,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/security/': {
+      id: '/_authenticated/security/'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof AuthenticatedSecurityIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/reports/': {
+      id: '/_authenticated/reports/'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/organizations/': {
+      id: '/_authenticated/organizations/'
+      path: '/organizations'
+      fullPath: '/organizations'
+      preLoaderRoute: typeof AuthenticatedOrganizationsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/help-center/': {
       id: '/_authenticated/help-center/'
       path: '/help-center'
@@ -538,40 +827,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHelpCenterIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/chats/': {
-      id: '/_authenticated/chats/'
-      path: '/chats'
-      fullPath: '/chats'
-      preLoaderRoute: typeof AuthenticatedChatsIndexRouteImport
+    '/_authenticated/governance/': {
+      id: '/_authenticated/governance/'
+      path: '/governance'
+      fullPath: '/governance'
+      preLoaderRoute: typeof AuthenticatedGovernanceIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/apps/': {
-      id: '/_authenticated/apps/'
-      path: '/apps'
-      fullPath: '/apps'
-      preLoaderRoute: typeof AuthenticatedAppsIndexRouteImport
+    '/_authenticated/blockchain/': {
+      id: '/_authenticated/blockchain/'
+      path: '/blockchain'
+      fullPath: '/blockchain'
+      preLoaderRoute: typeof AuthenticatedBlockchainIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/clerk/_authenticated/user-management': {
-      id: '/clerk/_authenticated/user-management'
-      path: '/user-management'
-      fullPath: '/clerk/user-management'
-      preLoaderRoute: typeof ClerkAuthenticatedUserManagementRouteImport
-      parentRoute: typeof ClerkAuthenticatedRouteRoute
+    '/_authenticated/audit-logs/': {
+      id: '/_authenticated/audit-logs/'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuthenticatedAuditLogsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/clerk/(auth)/sign-up': {
-      id: '/clerk/(auth)/sign-up'
-      path: '/sign-up'
-      fullPath: '/clerk/sign-up'
-      preLoaderRoute: typeof ClerkauthSignUpRouteImport
-      parentRoute: typeof ClerkauthRouteRoute
+    '/_authenticated/analytics/': {
+      id: '/_authenticated/analytics/'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/clerk/(auth)/sign-in': {
-      id: '/clerk/(auth)/sign-in'
-      path: '/sign-in'
-      fullPath: '/clerk/sign-in'
-      preLoaderRoute: typeof ClerkauthSignInRouteImport
-      parentRoute: typeof ClerkauthRouteRoute
+    '/_authenticated/wallets/analytics': {
+      id: '/_authenticated/wallets/analytics'
+      path: '/wallets/analytics'
+      fullPath: '/wallets/analytics'
+      preLoaderRoute: typeof AuthenticatedWalletsAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/transactions/batches': {
+      id: '/_authenticated/transactions/batches'
+      path: '/transactions/batches'
+      fullPath: '/transactions/batches'
+      preLoaderRoute: typeof AuthenticatedTransactionsBatchesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/transactions/approvals': {
+      id: '/_authenticated/transactions/approvals'
+      path: '/transactions/approvals'
+      fullPath: '/transactions/approvals'
+      preLoaderRoute: typeof AuthenticatedTransactionsApprovalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staking/positions': {
+      id: '/_authenticated/staking/positions'
+      path: '/staking/positions'
+      fullPath: '/staking/positions'
+      preLoaderRoute: typeof AuthenticatedStakingPositionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/staking/pools': {
+      id: '/_authenticated/staking/pools'
+      path: '/staking/pools'
+      fullPath: '/staking/pools'
+      preLoaderRoute: typeof AuthenticatedStakingPoolsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/notifications': {
       id: '/_authenticated/settings/notifications'
@@ -601,12 +918,110 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/security/sessions': {
+      id: '/_authenticated/security/sessions'
+      path: '/security/sessions'
+      fullPath: '/security/sessions'
+      preLoaderRoute: typeof AuthenticatedSecuritySessionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/security/policies': {
+      id: '/_authenticated/security/policies'
+      path: '/security/policies'
+      fullPath: '/security/policies'
+      preLoaderRoute: typeof AuthenticatedSecurityPoliciesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/security/mpc-keys': {
+      id: '/_authenticated/security/mpc-keys'
+      path: '/security/mpc-keys'
+      fullPath: '/security/mpc-keys'
+      preLoaderRoute: typeof AuthenticatedSecurityMpcKeysRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/governance/proposals': {
+      id: '/_authenticated/governance/proposals'
+      path: '/governance/proposals'
+      fullPath: '/governance/proposals'
+      preLoaderRoute: typeof AuthenticatedGovernanceProposalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/governance/delegations': {
+      id: '/_authenticated/governance/delegations'
+      path: '/governance/delegations'
+      fullPath: '/governance/delegations'
+      preLoaderRoute: typeof AuthenticatedGovernanceDelegationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/errors/$error': {
       id: '/_authenticated/errors/$error'
       path: '/errors/$error'
       fullPath: '/errors/$error'
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/blockchain/withdrawals': {
+      id: '/_authenticated/blockchain/withdrawals'
+      path: '/blockchain/withdrawals'
+      fullPath: '/blockchain/withdrawals'
+      preLoaderRoute: typeof AuthenticatedBlockchainWithdrawalsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/blockchain/deposits': {
+      id: '/_authenticated/blockchain/deposits'
+      path: '/blockchain/deposits'
+      fullPath: '/blockchain/deposits'
+      preLoaderRoute: typeof AuthenticatedBlockchainDepositsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics/users': {
+      id: '/_authenticated/analytics/users'
+      path: '/analytics/users'
+      fullPath: '/analytics/users'
+      preLoaderRoute: typeof AuthenticatedAnalyticsUsersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics/risk': {
+      id: '/_authenticated/analytics/risk'
+      path: '/analytics/risk'
+      fullPath: '/analytics/risk'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRiskRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics/real-time': {
+      id: '/_authenticated/analytics/real-time'
+      path: '/analytics/real-time'
+      fullPath: '/analytics/real-time'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRealTimeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics/performance': {
+      id: '/_authenticated/analytics/performance'
+      path: '/analytics/performance'
+      fullPath: '/analytics/performance'
+      preLoaderRoute: typeof AuthenticatedAnalyticsPerformanceRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/analytics/financial': {
+      id: '/_authenticated/analytics/financial'
+      path: '/analytics/financial'
+      fullPath: '/analytics/financial'
+      preLoaderRoute: typeof AuthenticatedAnalyticsFinancialRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/governance/proposals/$id': {
+      id: '/_authenticated/governance/proposals/$id'
+      path: '/$id'
+      fullPath: '/governance/proposals/$id'
+      preLoaderRoute: typeof AuthenticatedGovernanceProposalsIdRouteImport
+      parentRoute: typeof AuthenticatedGovernanceProposalsRoute
+    }
+    '/_authenticated/governance/delegations/$id': {
+      id: '/_authenticated/governance/delegations/$id'
+      path: '/$id'
+      fullPath: '/governance/delegations/$id'
+      preLoaderRoute: typeof AuthenticatedGovernanceDelegationsIdRouteImport
+      parentRoute: typeof AuthenticatedGovernanceDelegationsRoute
     }
   }
 }
@@ -634,77 +1049,116 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedGovernanceDelegationsRouteChildren {
+  AuthenticatedGovernanceDelegationsIdRoute: typeof AuthenticatedGovernanceDelegationsIdRoute
+}
+
+const AuthenticatedGovernanceDelegationsRouteChildren: AuthenticatedGovernanceDelegationsRouteChildren =
+  {
+    AuthenticatedGovernanceDelegationsIdRoute:
+      AuthenticatedGovernanceDelegationsIdRoute,
+  }
+
+const AuthenticatedGovernanceDelegationsRouteWithChildren =
+  AuthenticatedGovernanceDelegationsRoute._addFileChildren(
+    AuthenticatedGovernanceDelegationsRouteChildren,
+  )
+
+interface AuthenticatedGovernanceProposalsRouteChildren {
+  AuthenticatedGovernanceProposalsIdRoute: typeof AuthenticatedGovernanceProposalsIdRoute
+}
+
+const AuthenticatedGovernanceProposalsRouteChildren: AuthenticatedGovernanceProposalsRouteChildren =
+  {
+    AuthenticatedGovernanceProposalsIdRoute:
+      AuthenticatedGovernanceProposalsIdRoute,
+  }
+
+const AuthenticatedGovernanceProposalsRouteWithChildren =
+  AuthenticatedGovernanceProposalsRoute._addFileChildren(
+    AuthenticatedGovernanceProposalsRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAnalyticsFinancialRoute: typeof AuthenticatedAnalyticsFinancialRoute
+  AuthenticatedAnalyticsPerformanceRoute: typeof AuthenticatedAnalyticsPerformanceRoute
+  AuthenticatedAnalyticsRealTimeRoute: typeof AuthenticatedAnalyticsRealTimeRoute
+  AuthenticatedAnalyticsRiskRoute: typeof AuthenticatedAnalyticsRiskRoute
+  AuthenticatedAnalyticsUsersRoute: typeof AuthenticatedAnalyticsUsersRoute
+  AuthenticatedBlockchainDepositsRoute: typeof AuthenticatedBlockchainDepositsRoute
+  AuthenticatedBlockchainWithdrawalsRoute: typeof AuthenticatedBlockchainWithdrawalsRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
-  AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
-  AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
+  AuthenticatedGovernanceDelegationsRoute: typeof AuthenticatedGovernanceDelegationsRouteWithChildren
+  AuthenticatedGovernanceProposalsRoute: typeof AuthenticatedGovernanceProposalsRouteWithChildren
+  AuthenticatedSecurityMpcKeysRoute: typeof AuthenticatedSecurityMpcKeysRoute
+  AuthenticatedSecurityPoliciesRoute: typeof AuthenticatedSecurityPoliciesRoute
+  AuthenticatedSecuritySessionsRoute: typeof AuthenticatedSecuritySessionsRoute
+  AuthenticatedStakingPoolsRoute: typeof AuthenticatedStakingPoolsRoute
+  AuthenticatedStakingPositionsRoute: typeof AuthenticatedStakingPositionsRoute
+  AuthenticatedTransactionsApprovalsRoute: typeof AuthenticatedTransactionsApprovalsRoute
+  AuthenticatedTransactionsBatchesRoute: typeof AuthenticatedTransactionsBatchesRoute
+  AuthenticatedWalletsAnalyticsRoute: typeof AuthenticatedWalletsAnalyticsRoute
+  AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute
+  AuthenticatedAuditLogsIndexRoute: typeof AuthenticatedAuditLogsIndexRoute
+  AuthenticatedBlockchainIndexRoute: typeof AuthenticatedBlockchainIndexRoute
+  AuthenticatedGovernanceIndexRoute: typeof AuthenticatedGovernanceIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
-  AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
+  AuthenticatedOrganizationsIndexRoute: typeof AuthenticatedOrganizationsIndexRoute
+  AuthenticatedReportsIndexRoute: typeof AuthenticatedReportsIndexRoute
+  AuthenticatedSecurityIndexRoute: typeof AuthenticatedSecurityIndexRoute
+  AuthenticatedStakingIndexRoute: typeof AuthenticatedStakingIndexRoute
+  AuthenticatedTransactionsIndexRoute: typeof AuthenticatedTransactionsIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedWalletsIndexRoute: typeof AuthenticatedWalletsIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAnalyticsFinancialRoute: AuthenticatedAnalyticsFinancialRoute,
+  AuthenticatedAnalyticsPerformanceRoute:
+    AuthenticatedAnalyticsPerformanceRoute,
+  AuthenticatedAnalyticsRealTimeRoute: AuthenticatedAnalyticsRealTimeRoute,
+  AuthenticatedAnalyticsRiskRoute: AuthenticatedAnalyticsRiskRoute,
+  AuthenticatedAnalyticsUsersRoute: AuthenticatedAnalyticsUsersRoute,
+  AuthenticatedBlockchainDepositsRoute: AuthenticatedBlockchainDepositsRoute,
+  AuthenticatedBlockchainWithdrawalsRoute:
+    AuthenticatedBlockchainWithdrawalsRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
-  AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
-  AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
+  AuthenticatedGovernanceDelegationsRoute:
+    AuthenticatedGovernanceDelegationsRouteWithChildren,
+  AuthenticatedGovernanceProposalsRoute:
+    AuthenticatedGovernanceProposalsRouteWithChildren,
+  AuthenticatedSecurityMpcKeysRoute: AuthenticatedSecurityMpcKeysRoute,
+  AuthenticatedSecurityPoliciesRoute: AuthenticatedSecurityPoliciesRoute,
+  AuthenticatedSecuritySessionsRoute: AuthenticatedSecuritySessionsRoute,
+  AuthenticatedStakingPoolsRoute: AuthenticatedStakingPoolsRoute,
+  AuthenticatedStakingPositionsRoute: AuthenticatedStakingPositionsRoute,
+  AuthenticatedTransactionsApprovalsRoute:
+    AuthenticatedTransactionsApprovalsRoute,
+  AuthenticatedTransactionsBatchesRoute: AuthenticatedTransactionsBatchesRoute,
+  AuthenticatedWalletsAnalyticsRoute: AuthenticatedWalletsAnalyticsRoute,
+  AuthenticatedAnalyticsIndexRoute: AuthenticatedAnalyticsIndexRoute,
+  AuthenticatedAuditLogsIndexRoute: AuthenticatedAuditLogsIndexRoute,
+  AuthenticatedBlockchainIndexRoute: AuthenticatedBlockchainIndexRoute,
+  AuthenticatedGovernanceIndexRoute: AuthenticatedGovernanceIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
-  AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
+  AuthenticatedOrganizationsIndexRoute: AuthenticatedOrganizationsIndexRoute,
+  AuthenticatedReportsIndexRoute: AuthenticatedReportsIndexRoute,
+  AuthenticatedSecurityIndexRoute: AuthenticatedSecurityIndexRoute,
+  AuthenticatedStakingIndexRoute: AuthenticatedStakingIndexRoute,
+  AuthenticatedTransactionsIndexRoute: AuthenticatedTransactionsIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedWalletsIndexRoute: AuthenticatedWalletsIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
-interface ClerkauthRouteRouteChildren {
-  ClerkauthSignInRoute: typeof ClerkauthSignInRoute
-  ClerkauthSignUpRoute: typeof ClerkauthSignUpRoute
-}
-
-const ClerkauthRouteRouteChildren: ClerkauthRouteRouteChildren = {
-  ClerkauthSignInRoute: ClerkauthSignInRoute,
-  ClerkauthSignUpRoute: ClerkauthSignUpRoute,
-}
-
-const ClerkauthRouteRouteWithChildren = ClerkauthRouteRoute._addFileChildren(
-  ClerkauthRouteRouteChildren,
-)
-
-interface ClerkAuthenticatedRouteRouteChildren {
-  ClerkAuthenticatedUserManagementRoute: typeof ClerkAuthenticatedUserManagementRoute
-}
-
-const ClerkAuthenticatedRouteRouteChildren: ClerkAuthenticatedRouteRouteChildren =
-  {
-    ClerkAuthenticatedUserManagementRoute:
-      ClerkAuthenticatedUserManagementRoute,
-  }
-
-const ClerkAuthenticatedRouteRouteWithChildren =
-  ClerkAuthenticatedRouteRoute._addFileChildren(
-    ClerkAuthenticatedRouteRouteChildren,
-  )
-
-interface ClerkRouteRouteChildren {
-  ClerkauthRouteRoute: typeof ClerkauthRouteRouteWithChildren
-  ClerkAuthenticatedRouteRoute: typeof ClerkAuthenticatedRouteRouteWithChildren
-}
-
-const ClerkRouteRouteChildren: ClerkRouteRouteChildren = {
-  ClerkauthRouteRoute: ClerkauthRouteRouteWithChildren,
-  ClerkAuthenticatedRouteRoute: ClerkAuthenticatedRouteRouteWithChildren,
-}
-
-const ClerkRouteRouteWithChildren = ClerkRouteRoute._addFileChildren(
-  ClerkRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  ClerkRouteRoute: ClerkRouteRouteWithChildren,
   authForgotPasswordRoute: authForgotPasswordRoute,
   authOtpRoute: authOtpRoute,
   authSignInRoute: authSignInRoute,
