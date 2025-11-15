@@ -29,7 +29,7 @@ export function TransactionTypeDistribution() {
     )
   }
 
-  if (!statistics || !statistics.by_type || statistics.by_type.length === 0) {
+  if (!statistics || !statistics.by_type) {
     return (
       <Card>
         <CardHeader>
@@ -42,7 +42,25 @@ export function TransactionTypeDistribution() {
     )
   }
 
-  const chartData = statistics.by_type.map((item) => ({
+  // Convert object to array if needed
+  const byTypeData = Array.isArray(statistics.by_type)
+    ? statistics.by_type
+    : Object.entries(statistics.by_type).map(([type, count]) => ({ type, count }))
+
+  if (byTypeData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Type Distribution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className='text-muted-foreground text-sm'>No distribution data available</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const chartData = byTypeData.map((item) => ({
     name: item.type.charAt(0).toUpperCase() + item.type.slice(1),
     value: item.count,
   }))

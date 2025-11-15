@@ -22,15 +22,17 @@ export function DelegationsPage() {
   if (delegationId) {
     if (isLoading) {
       return (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className='container mx-auto py-8'>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
         </div>
       )
     }
 
     if (!delegation) {
       return (
-        <div className="space-y-6">
+        <div className='container mx-auto space-y-8 py-8'>
           <Button
             variant="ghost"
             onClick={() => navigate({ to: '/governance/delegations' })}
@@ -38,15 +40,18 @@ export function DelegationsPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Delegations
           </Button>
-          <div className="rounded-lg border border-destructive p-4 text-destructive">
-            Delegation not found
+          <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+            <h3 className='font-semibold text-red-900'>Delegation not found</h3>
+            <p className='text-sm text-red-700'>
+              The requested delegation could not be found
+            </p>
           </div>
         </div>
       )
     }
 
     return (
-      <div className="space-y-6">
+      <div className='container mx-auto space-y-8 py-8'>
         {/* Header */}
         <Button
           variant="ghost"
@@ -63,7 +68,7 @@ export function DelegationsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className='container mx-auto space-y-8 py-8'>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

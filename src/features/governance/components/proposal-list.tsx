@@ -73,12 +73,12 @@ export function ProposalList() {
     <div className="space-y-4">
       {/* Filters */}
       <div className="flex gap-4">
-        <Select value={status || ''} onValueChange={(v) => setStatus(v as ProposalStatus || undefined)}>
+        <Select value={status || 'all'} onValueChange={(v) => setStatus(v === 'all' ? undefined : v as ProposalStatus)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="All statuses" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All statuses</SelectItem>
+            <SelectItem value="all">All statuses</SelectItem>
             <SelectItem value={ProposalStatus.Draft}>Draft</SelectItem>
             <SelectItem value={ProposalStatus.Active}>Active</SelectItem>
             <SelectItem value={ProposalStatus.Passed}>Passed</SelectItem>
@@ -87,12 +87,12 @@ export function ProposalList() {
           </SelectContent>
         </Select>
 
-        <Select value={proposalType || ''} onValueChange={(v) => setProposalType(v as ProposalType || undefined)}>
+        <Select value={proposalType || 'all'} onValueChange={(v) => setProposalType(v === 'all' ? undefined : v as ProposalType)}>
           <SelectTrigger className="w-[200px]">
             <SelectValue placeholder="All types" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All types</SelectItem>
+            <SelectItem value="all">All types</SelectItem>
             <SelectItem value={ProposalType.General}>General</SelectItem>
             <SelectItem value={ProposalType.ParameterChange}>Parameter Change</SelectItem>
             <SelectItem value={ProposalType.TreasurySpend}>Treasury Spend</SelectItem>

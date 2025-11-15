@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
 import { ActivityIcon, DatabaseIcon, CpuIcon, NetworkIcon } from 'lucide-react'
 
 interface SystemHealthIndicatorsProps {
-  metrics: SystemMetrics
+  metrics?: SystemMetrics
 }
 
 export function SystemHealthIndicators({ metrics }: SystemHealthIndicatorsProps) {
@@ -26,29 +26,44 @@ export function SystemHealthIndicators({ metrics }: SystemHealthIndicatorsProps)
     return 'bg-green-600'
   }
 
+  // Return early if no metrics
+  if (!metrics) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>System Health</CardTitle>
+          <CardDescription>Real-time system metrics</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className='text-muted-foreground text-sm'>No metrics available</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const indicators = [
     {
       label: 'CPU Usage',
-      value: metrics.cpu_usage,
+      value: metrics.cpu_usage ?? 0,
       icon: CpuIcon,
       unit: '%',
     },
     {
       label: 'Memory Usage',
-      value: metrics.memory_usage,
+      value: metrics.memory_usage ?? 0,
       icon: ActivityIcon,
       unit: '%',
     },
     {
       label: 'DB Connections',
-      value: metrics.db_connections,
+      value: metrics.db_connections ?? 0,
       icon: DatabaseIcon,
       unit: '',
       max: 100,
     },
     {
       label: 'Active Requests',
-      value: metrics.active_requests,
+      value: metrics.active_requests ?? 0,
       icon: NetworkIcon,
       unit: '',
       max: 1000,

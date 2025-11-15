@@ -58,14 +58,14 @@ export function ChainStatusCard({ network }: ChainStatusCardProps) {
         <div className='flex items-center justify-between'>
           <span className='text-sm text-muted-foreground'>Status</span>
           <Badge variant='outline' className={getStatusColor()}>
-            {network.status.charAt(0).toUpperCase() + network.status.slice(1)}
+            {network.status ? network.status.charAt(0).toUpperCase() + network.status.slice(1) : 'Unknown'}
           </Badge>
         </div>
 
         <div className='flex items-center justify-between'>
           <span className='text-sm text-muted-foreground'>Block Height</span>
           <span className='text-sm font-mono font-semibold'>
-            {network.current_block.toLocaleString()}
+            {(network.current_block ?? 0).toLocaleString()}
           </span>
         </div>
 
@@ -79,7 +79,9 @@ export function ChainStatusCard({ network }: ChainStatusCardProps) {
         <div className='flex items-center justify-between'>
           <span className='text-sm text-muted-foreground'>Last Checked</span>
           <span className='text-xs text-muted-foreground'>
-            {formatDistanceToNow(new Date(network.last_checked_at), { addSuffix: true })}
+            {network.last_checked_at
+              ? formatDistanceToNow(new Date(network.last_checked_at), { addSuffix: true })
+              : 'Never'}
           </span>
         </div>
       </CardContent>

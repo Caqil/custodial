@@ -40,12 +40,25 @@ export default function DepositsPage() {
     ...(selectedStatus !== 'all' && { status: selectedStatus as DepositStatus }),
   }
 
-  const { data, isLoading } = useDeposits(filterParams)
+  const { data, isLoading, error } = useDeposits(filterParams)
 
   const totalPages = data ? Math.ceil(data.total / pageSize) : 0
 
+  if (error) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading deposits</h3>
+          <p className='text-sm text-red-700'>
+            {error instanceof Error ? error.message : 'An error occurred'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className='space-y-6'>
+    <div className='container mx-auto space-y-8 py-8'>
       <div className='flex items-center justify-between'>
         <div>
           <h1 className='text-3xl font-bold tracking-tight'>Deposit Monitoring</h1>

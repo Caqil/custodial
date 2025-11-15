@@ -4,12 +4,6 @@
  */
 
 import { useState, useMemo } from 'react'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { ConfigDrawer } from '@/components/config-drawer'
 import { OrganizationTable } from './components/organization-table'
 import { OrganizationFilters } from './components/organization-filters'
 import { OrganizationStatsDrawer } from './components/organization-stats-drawer'
@@ -47,66 +41,77 @@ export function Organizations() {
     setStatsDrawerOpen(true)
   }
 
-  return (
-    <>
-      <Header fixed>
-        <Search />
-        <div className='ms-auto flex items-center space-x-4'>
-          <ThemeSwitch />
-          <ConfigDrawer />
-          <ProfileDropdown />
+  if (!data && !isLoading) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading organizations</h3>
+          <p className='text-sm text-red-700'>
+            Unable to load organizations. Please try again.
+          </p>
         </div>
-      </Header>
+      </div>
+    )
+  }
 
-      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
-        {/* Page Header */}
-        <div className='flex flex-wrap items-end justify-between gap-2'>
-          <div>
-            <h2 className='text-2xl font-bold tracking-tight'>
-              Organization Management
-            </h2>
-            <p className='text-muted-foreground'>
-              View organization statistics and metrics
+  return (
+    <div className='container mx-auto space-y-8 py-8'>
+      {/* Header */}
+      <div className='flex items-center justify-between'>
+        <div>
+          <h1 className='text-3xl font-bold tracking-tight'>
+            Organization Management
+          </h1>
+          <p className='text-muted-foreground'>
+            View organization statistics and metrics
+          </p>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      {data && (
+        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Total Organizations
+            </p>
+            <p className='text-2xl font-bold'>{data.total}</p>
+          </div>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Active
+            </p>
+            <p className='text-2xl font-bold text-green-600'>
+              {data.organizations.filter((o) => o.status === 'active').length}
             </p>
           </div>
-        </div>
-
-        {/* Filters */}
-        <OrganizationFilters search={search} onSearchChange={setSearch} />
-
-        {/* Stats Cards */}
-        {data && (
-          <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>
-                Total Organizations
-              </p>
-              <p className='text-2xl font-bold'>{data.total}</p>
-            </div>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>
-                Active
-              </p>
-              <p className='text-2xl font-bold text-green-600'>
-                {data.organizations.filter((o) => o.status === 'active').length}
-              </p>
-            </div>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>
-                Filtered Results
-              </p>
-              <p className='text-2xl font-bold'>{filteredOrganizations.length}</p>
-            </div>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>
+              Filtered Results
+            </p>
+            <p className='text-2xl font-bold'>{filteredOrganizations.length}</p>
           </div>
-        )}
+        </div>
+      )}
 
-        {/* Organization Table */}
-        <OrganizationTable
-          data={filteredOrganizations}
-          isLoading={isLoading}
-          onViewStats={handleViewStats}
-        />
-      </Main>
+      {/* Filters */}
+      <OrganizationFilters search={search} onSearchChange={setSearch} />
+
+      {/* Organization Table */}
+      <OrganizationTable
+        data={filteredOrganizations}
+        isLoading={isLoading}
+        onViewStats={handleViewStats}
+      />
+
+      {/* Pagination Info */}
+      {data && (
+        <div className='text-muted-foreground flex items-center justify-between text-sm'>
+          <div>
+            Showing {filteredOrganizations.length} of {data.total} organizations
+          </div>
+        </div>
+      )}
 
       {/* Stats Drawer */}
       <OrganizationStatsDrawer
@@ -114,6 +119,6 @@ export function Organizations() {
         open={statsDrawerOpen}
         onOpenChange={setStatsDrawerOpen}
       />
-    </>
+    </div>
   )
 }

@@ -54,7 +54,7 @@ export function AnalyticsDashboardPage() {
       </div>
 
       {/* System Health */}
-      {health && realTime && (
+      {health && realTime?.system_metrics && (
         <SystemHealthIndicators metrics={realTime.system_metrics} />
       )}
 

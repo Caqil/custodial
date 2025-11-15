@@ -2,20 +2,23 @@
  * Wallets Feature - Main Page
  * Comprehensive wallet management with CRUD operations, filters, and charts
  */
-
 import { useState } from 'react'
-import { Button } from '@/components/ui/button'
+import type {
+  Wallet,
+  WalletType,
+  WalletStatus,
+} from '@/core/entities/wallet.entity'
 import { Plus } from 'lucide-react'
-import { WalletStatsCards } from './components/wallet-stats-cards'
-import { WalletFilters } from './components/wallet-filters'
-import { WalletTable } from './components/wallet-table'
+import { Button } from '@/components/ui/button'
 import { CreateWalletDialog } from './components/create-wallet-dialog'
 import { DeleteWalletDialog } from './components/delete-wallet-dialog'
 import { FreezeWalletDialog } from './components/freeze-wallet-dialog'
 import { UnfreezeWalletDialog } from './components/unfreeze-wallet-dialog'
 import { WalletDetailDrawer } from './components/wallet-detail-drawer'
+import { WalletFilters } from './components/wallet-filters'
+import { WalletStatsCards } from './components/wallet-stats-cards'
+import { WalletTable } from './components/wallet-table'
 import { useWallets } from './hooks'
-import type { Wallet, WalletType, WalletStatus } from '@/core/entities/wallet.entity'
 import type { WalletFilterState } from './types'
 
 /**
@@ -155,7 +158,11 @@ export default function WalletsPage() {
             Manage digital asset wallets across hot, warm, and cold storage
           </p>
         </div>
-        <Button onClick={() => setDialogState((prev) => ({ ...prev, createWallet: true }))}>
+        <Button
+          onClick={() =>
+            setDialogState((prev) => ({ ...prev, createWallet: true }))
+          }
+        >
           <Plus className='mr-2 h-4 w-4' />
           Create Wallet
         </Button>

@@ -27,7 +27,7 @@ export function TransactionFeesChart() {
     )
   }
 
-  if (!feesData || !feesData.by_currency || feesData.by_currency.length === 0) {
+  if (!feesData || !feesData.by_currency) {
     return (
       <Card>
         <CardHeader>
@@ -40,7 +40,30 @@ export function TransactionFeesChart() {
     )
   }
 
-  const chartData = feesData.by_currency.map((item) => ({
+  // Convert object to array if needed
+  const byCurrencyData = Array.isArray(feesData.by_currency)
+    ? feesData.by_currency
+    : Object.entries(feesData.by_currency).map(([currency, data]: [string, any]) => ({
+        currency,
+        total_fees: data.total_fees,
+        average_fee: data.average_fee,
+        count: data.count,
+      }))
+
+  if (byCurrencyData.length === 0) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Transaction Fees</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className='text-muted-foreground text-sm'>No fee data available</p>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  const chartData = byCurrencyData.map((item) => ({
     currency: item.currency,
     totalFees: parseFloat(item.total_fees),
     avgFee: parseFloat(item.average_fee),

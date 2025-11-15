@@ -39,6 +39,7 @@ export function OrganizationTable({
   onViewStats,
 }: OrganizationTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
+  const [rowSelection, setRowSelection] = useState({})
 
   const columns = getOrganizationColumns({ onViewStats })
 
@@ -49,8 +50,11 @@ export function OrganizationTable({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: true,
     state: {
       sorting,
+      rowSelection,
     },
   })
 
@@ -65,13 +69,13 @@ export function OrganizationTable({
 
   return (
     <div className='space-y-4'>
-      <div className='rounded-md border'>
+      <div className='overflow-hidden rounded-lg border bg-card'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className='hover:bg-transparent'>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className='bg-muted/50 font-semibold'>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -86,7 +90,11 @@ export function OrganizationTable({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                  className='cursor-pointer'
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
@@ -98,10 +106,10 @@ export function OrganizationTable({
                 </TableRow>
               ))
             ) : (
-              <TableRow>
+              <TableRow className='hover:bg-transparent'>
                 <TableCell
                   colSpan={columns.length}
-                  className='h-24 text-center'
+                  className='h-24 text-center text-muted-foreground'
                 >
                   No organizations found.
                 </TableCell>
@@ -111,23 +119,35 @@ export function OrganizationTable({
         </Table>
       </div>
 
-      <div className='flex items-center justify-end space-x-2 px-2'>
-        <Button
-          variant='outline'
-          size='sm'
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant='outline'
-          size='sm'
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
+      <div className='flex items-center justify-between px-2'>
+        <div className='text-muted-foreground flex-1 text-sm'>
+          {table.getFilteredSelectedRowModel().rows.length} of{' '}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className='flex items-center gap-2'>
+          <p className='text-sm font-medium'>
+            Page {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </p>
+          <div className='flex items-center gap-2'>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )

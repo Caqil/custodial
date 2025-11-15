@@ -35,9 +35,9 @@ export function WalletStatsCards() {
     return null
   }
 
-  const hotWallets = statistics.by_type.find((t) => t.type === 'hot')?.count || 0
-  const warmWallets = statistics.by_type.find((t) => t.type === 'warm')?.count || 0
-  const coldWallets = statistics.by_type.find((t) => t.type === 'cold')?.count || 0
+  const hotWallets = statistics.by_type?.find((t) => t.type === 'hot')?.count || 0
+  const warmWallets = statistics.by_type?.find((t) => t.type === 'warm')?.count || 0
+  const coldWallets = statistics.by_type?.find((t) => t.type === 'cold')?.count || 0
 
   return (
     <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>

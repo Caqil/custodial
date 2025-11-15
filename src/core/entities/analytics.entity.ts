@@ -11,8 +11,12 @@ export interface DashboardAnalytics {
   total_wallets: number
   assets_under_custody: Record<string, string>
   transactions_today: number
+  total_volume: string
   staking_tvl: string
   active_proposals: number
+  success_rate: number
+  active_wallets: number
+  pending_approvals: number
   timestamp: string
 }
 
@@ -76,8 +80,13 @@ export interface UserGrowthResponse {
  */
 export interface SystemHealth {
   status: 'healthy' | 'degraded' | 'unhealthy'
+  cpu_usage: number
+  memory_usage: number
+  database_status: string
   database_healthy: boolean
   audit_healthy: boolean
+  api_response_time: number
+  active_connections?: number
   timestamp: string
 }
 

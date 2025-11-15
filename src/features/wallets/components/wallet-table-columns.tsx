@@ -5,6 +5,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, Eye, Edit, Trash2, Snowflake, Flame } from 'lucide-react'
+import { MoreHorizontal, Eye, Edit, Trash2, Snowflake, Flame, ArrowUpDown } from 'lucide-react'
 import { WalletTypeBadge } from './wallet-type-badge'
 import { WalletStatusBadge } from './wallet-status-badge'
 import type { Wallet } from '@/core/entities/wallet.entity'
@@ -38,8 +39,41 @@ export function getWalletColumns({
 }: WalletColumnsProps): ColumnDef<Wallet>[] {
   return [
     {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
       accessorKey: 'name',
-      header: 'Name',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Name
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const wallet = row.original
         return (
@@ -52,7 +86,18 @@ export function getWalletColumns({
     },
     {
       accessorKey: 'type',
-      header: 'Type',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Type
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const wallet = row.original
         return <WalletTypeBadge type={wallet.type} isPoolParent={wallet.is_pool_parent} />
@@ -60,14 +105,36 @@ export function getWalletColumns({
     },
     {
       accessorKey: 'currency',
-      header: 'Currency',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Currency
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         return <span className='font-mono font-semibold'>{row.original.currency}</span>
       },
     },
     {
       accessorKey: 'balance',
-      header: 'Balance',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Balance
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const wallet = row.original
         const available = parseFloat(wallet.balance) - parseFloat(wallet.locked_balance)
@@ -97,7 +164,18 @@ export function getWalletColumns({
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Status
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         return <WalletStatusBadge status={row.original.status} />
       },

@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { UserStatus, UserRole } from '@/core/entities/user.entity'
+import { UserStatus, Role } from '@/core/entities/user.entity'
 import type { UserFilters } from '../types'
 
 interface UserFiltersProps {
@@ -76,9 +76,10 @@ export function UserFilters({ filters, onFiltersChange }: UserFiltersProps) {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value='all'>All Roles</SelectItem>
-          <SelectItem value={UserRole.Admin}>Admin</SelectItem>
-          <SelectItem value={UserRole.User}>User</SelectItem>
-          <SelectItem value={UserRole.Organization}>Organization</SelectItem>
+          <SelectItem value={Role.Admin}>Admin</SelectItem>
+          <SelectItem value={Role.Trader}>Trader</SelectItem>
+          <SelectItem value={Role.Viewer}>Viewer</SelectItem>
+          <SelectItem value={Role.Auditor}>Auditor</SelectItem>
         </SelectContent>
       </Select>
     </div>

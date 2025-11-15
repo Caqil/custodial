@@ -16,10 +16,11 @@ export function SecurityPoliciesPage() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
 
   return (
-    <div className='space-y-6'>
+    <div className='container mx-auto space-y-8 py-8'>
+      {/* Header */}
       <div>
-        <h1 className='text-3xl font-bold'>Security Policies</h1>
-        <p className='text-muted-foreground mt-2'>
+        <h1 className='text-3xl font-bold tracking-tight'>Security Policies</h1>
+        <p className='text-muted-foreground'>
           Configure and manage organization security policies
         </p>
       </div>

@@ -25,18 +25,36 @@ export default function BlockchainDashboardPage() {
   const [selectedDeposit, setSelectedDeposit] = useState<DepositDetection | null>(null)
   const [selectedWithdrawal, setSelectedWithdrawal] = useState<WithdrawalBroadcast | null>(null)
 
-  const { data: networks, isLoading: isLoadingNetworks } = useNetworks()
+  const { data: networks, isLoading: isLoadingNetworks, error: networksError } = useNetworks()
   const { data: pendingDeposits, isLoading: isLoadingDeposits } = usePendingDeposits()
   const { data: pendingWithdrawals, isLoading: isLoadingWithdrawals } = usePendingWithdrawals()
 
+  // Convert networks to array if it's an object
+  const networksArray = networks ? (Array.isArray(networks) ? networks : Object.values(networks)) : []
+  const depositsArray = pendingDeposits ? (Array.isArray(pendingDeposits) ? pendingDeposits : []) : []
+  const withdrawalsArray = pendingWithdrawals ? (Array.isArray(pendingWithdrawals) ? pendingWithdrawals : []) : []
+
   // Calculate summary stats
-  const healthyNetworks = networks?.filter(n => n.status === 'healthy').length || 0
-  const totalNetworks = networks?.length || 0
-  const pendingDepositCount = pendingDeposits?.length || 0
-  const pendingWithdrawalCount = pendingWithdrawals?.length || 0
+  const healthyNetworks = networksArray.filter(n => n.status === 'healthy').length
+  const totalNetworks = networksArray.length
+  const pendingDepositCount = depositsArray.length
+  const pendingWithdrawalCount = withdrawalsArray.length
+
+  if (networksError) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading blockchain dashboard</h3>
+          <p className='text-sm text-red-700'>
+            {networksError instanceof Error ? networksError.message : 'An error occurred'}
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className='space-y-6'>
+    <div className='container mx-auto space-y-8 py-8'>
       <div className='flex items-center justify-between'>
         <div>
           <h1 className='text-3xl font-bold tracking-tight'>Blockchain Integration</h1>
@@ -46,8 +64,8 @@ export default function BlockchainDashboardPage() {
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
+      {/* Stats */}
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>Network Status</CardTitle>
@@ -96,7 +114,7 @@ export default function BlockchainDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              {networks?.filter(n => n.status !== 'healthy').length || 0}
+              {networksArray.filter(n => n.status !== 'healthy').length}
             </div>
             <p className='text-xs text-muted-foreground'>
               Networks degraded/offline
@@ -112,12 +130,12 @@ export default function BlockchainDashboardPage() {
           <CardDescription>Real-time status of all blockchain networks</CardDescription>
         </CardHeader>
         <CardContent>
-          <NetworkStatusGrid networks={networks || []} isLoading={isLoadingNetworks} />
+          <NetworkStatusGrid networks={networksArray} isLoading={isLoadingNetworks} />
         </CardContent>
       </Card>
 
       {/* Charts */}
-      <div className='grid gap-4 md:grid-cols-2'>
+      <div className='grid gap-4 lg:grid-cols-2'>
         <DepositWithdrawalTrend />
         <ChainActivityComparison />
       </div>
@@ -143,7 +161,7 @@ export default function BlockchainDashboardPage() {
             </CardHeader>
             <CardContent>
               <DepositList
-                deposits={pendingDeposits || []}
+                deposits={depositsArray}
                 isLoading={isLoadingDeposits}
                 onViewDetails={setSelectedDeposit}
               />
@@ -159,7 +177,7 @@ export default function BlockchainDashboardPage() {
             </CardHeader>
             <CardContent>
               <WithdrawalList
-                withdrawals={pendingWithdrawals || []}
+                withdrawals={withdrawalsArray}
                 isLoading={isLoadingWithdrawals}
                 onViewDetails={setSelectedWithdrawal}
                 onRetry={() => {}}

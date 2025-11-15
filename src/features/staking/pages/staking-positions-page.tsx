@@ -38,12 +38,12 @@ export function StakingPositionsPage() {
   const [status, setStatus] = useState<PositionStatus | undefined>(undefined)
 
   return (
-    <div className='space-y-6'>
+    <div className='container mx-auto space-y-8 py-8'>
       {/* Header */}
       <div className='flex items-center justify-between'>
         <div>
-          <h1 className='text-3xl font-bold'>Staking Positions</h1>
-          <p className='text-muted-foreground mt-1'>
+          <h1 className='text-3xl font-bold tracking-tight'>Staking Positions</h1>
+          <p className='text-muted-foreground'>
             View and manage all user staking positions across all pools
           </p>
         </div>

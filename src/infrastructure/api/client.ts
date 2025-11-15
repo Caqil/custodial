@@ -13,13 +13,34 @@ export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
   message?: string
+  error?: ApiErrorData
+  meta?: ApiMeta
 }
 
 /**
- * API error response
+ * API error data structure
+ */
+export interface ApiErrorData {
+  code: string
+  message: string
+  details?: unknown
+}
+
+/**
+ * API pagination metadata
+ */
+export interface ApiMeta {
+  page: number
+  limit: number
+  total: number
+  total_pages: number
+}
+
+/**
+ * API error response (legacy format for backward compatibility)
  */
 export interface ApiError {
-  error: string
+  error: string | ApiErrorData
 }
 
 /**
@@ -61,39 +82,51 @@ apiClient.interceptors.response.use(
     // Return response data directly
     return response
   },
-  (error: AxiosError<ApiError>) => {
+  (error: AxiosError<ApiError | ApiResponse<any>>) => {
     // Handle specific error status codes
     if (error.response) {
-      const { status } = error.response
+      const { status, data } = error.response
+
+      // Extract error message from response
+      let errorMessage = 'Unknown error'
+      if (data) {
+        if (typeof data === 'object' && 'error' in data) {
+          if (typeof data.error === 'string') {
+            errorMessage = data.error
+          } else if (data.error && typeof data.error === 'object' && 'message' in data.error) {
+            errorMessage = data.error.message
+          }
+        }
+      }
 
       switch (status) {
         case 401:
           // Unauthorized - clear auth and redirect handled by QueryCache in main.tsx
-          console.error('Unauthorized access - token may be expired')
+          console.error('Unauthorized access - token may be expired:', errorMessage)
           break
 
         case 403:
           // Forbidden - user doesn't have admin role
-          console.error('Forbidden - admin role required')
+          console.error('Forbidden - admin role required:', errorMessage)
           break
 
         case 404:
           // Not found
-          console.error('Resource not found')
+          console.error('Resource not found:', errorMessage)
           break
 
         case 429:
           // Rate limit exceeded
-          console.error('Rate limit exceeded - please try again later')
+          console.error('Rate limit exceeded - please try again later:', errorMessage)
           break
 
         case 500:
           // Internal server error
-          console.error('Internal server error')
+          console.error('Internal server error:', errorMessage)
           break
 
         default:
-          console.error(`API error: ${status}`)
+          console.error(`API error: ${status}`, errorMessage)
       }
     } else if (error.request) {
       // Network error
@@ -112,6 +145,14 @@ apiClient.interceptors.response.use(
  */
 export function extractData<T>(response: ApiResponse<T>): T {
   if (!response.success) {
+    // Handle error response
+    if (response.error) {
+      if (typeof response.error === 'object' && response.error.message) {
+        throw new Error(response.error.message)
+      } else if (typeof response.error === 'string') {
+        throw new Error(response.error)
+      }
+    }
     throw new Error(response.message || 'API request failed')
   }
   return response.data as T

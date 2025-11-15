@@ -32,6 +32,7 @@ import { Route as AuthenticatedReportsIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedOrganizationsIndexRouteImport } from './routes/_authenticated/organizations/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedGovernanceIndexRouteImport } from './routes/_authenticated/governance/index'
+import { Route as AuthenticatedComplianceIndexRouteImport } from './routes/_authenticated/compliance/index'
 import { Route as AuthenticatedBlockchainIndexRouteImport } from './routes/_authenticated/blockchain/index'
 import { Route as AuthenticatedAuditLogsIndexRouteImport } from './routes/_authenticated/audit-logs/index'
 import { Route as AuthenticatedAnalyticsIndexRouteImport } from './routes/_authenticated/analytics/index'
@@ -50,6 +51,9 @@ import { Route as AuthenticatedSecurityMpcKeysRouteImport } from './routes/_auth
 import { Route as AuthenticatedGovernanceProposalsRouteImport } from './routes/_authenticated/governance/proposals'
 import { Route as AuthenticatedGovernanceDelegationsRouteImport } from './routes/_authenticated/governance/delegations'
 import { Route as AuthenticatedErrorsErrorRouteImport } from './routes/_authenticated/errors/$error'
+import { Route as AuthenticatedComplianceSarCtrRouteImport } from './routes/_authenticated/compliance/sar-ctr'
+import { Route as AuthenticatedComplianceKycRouteImport } from './routes/_authenticated/compliance/kyc'
+import { Route as AuthenticatedComplianceGdprRouteImport } from './routes/_authenticated/compliance/gdpr'
 import { Route as AuthenticatedBlockchainWithdrawalsRouteImport } from './routes/_authenticated/blockchain/withdrawals'
 import { Route as AuthenticatedBlockchainDepositsRouteImport } from './routes/_authenticated/blockchain/deposits'
 import { Route as AuthenticatedAnalyticsUsersRouteImport } from './routes/_authenticated/analytics/users'
@@ -184,6 +188,12 @@ const AuthenticatedGovernanceIndexRoute =
     path: '/governance/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedComplianceIndexRoute =
+  AuthenticatedComplianceIndexRouteImport.update({
+    id: '/compliance/',
+    path: '/compliance/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedBlockchainIndexRoute =
   AuthenticatedBlockchainIndexRouteImport.update({
     id: '/blockchain/',
@@ -292,6 +302,24 @@ const AuthenticatedErrorsErrorRoute =
     path: '/errors/$error',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedComplianceSarCtrRoute =
+  AuthenticatedComplianceSarCtrRouteImport.update({
+    id: '/compliance/sar-ctr',
+    path: '/compliance/sar-ctr',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComplianceKycRoute =
+  AuthenticatedComplianceKycRouteImport.update({
+    id: '/compliance/kyc',
+    path: '/compliance/kyc',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedComplianceGdprRoute =
+  AuthenticatedComplianceGdprRouteImport.update({
+    id: '/compliance/gdpr',
+    path: '/compliance/gdpr',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedBlockchainWithdrawalsRoute =
   AuthenticatedBlockchainWithdrawalsRouteImport.update({
     id: '/blockchain/withdrawals',
@@ -367,6 +395,9 @@ export interface FileRoutesByFullPath {
   '/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
   '/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
   '/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
+  '/compliance/gdpr': typeof AuthenticatedComplianceGdprRoute
+  '/compliance/kyc': typeof AuthenticatedComplianceKycRoute
+  '/compliance/sar-ctr': typeof AuthenticatedComplianceSarCtrRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
   '/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
@@ -385,6 +416,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AuthenticatedAnalyticsIndexRoute
   '/audit-logs': typeof AuthenticatedAuditLogsIndexRoute
   '/blockchain': typeof AuthenticatedBlockchainIndexRoute
+  '/compliance': typeof AuthenticatedComplianceIndexRoute
   '/governance': typeof AuthenticatedGovernanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/organizations': typeof AuthenticatedOrganizationsIndexRoute
@@ -417,6 +449,9 @@ export interface FileRoutesByTo {
   '/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
   '/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
   '/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
+  '/compliance/gdpr': typeof AuthenticatedComplianceGdprRoute
+  '/compliance/kyc': typeof AuthenticatedComplianceKycRoute
+  '/compliance/sar-ctr': typeof AuthenticatedComplianceSarCtrRoute
   '/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
   '/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
@@ -435,6 +470,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AuthenticatedAnalyticsIndexRoute
   '/audit-logs': typeof AuthenticatedAuditLogsIndexRoute
   '/blockchain': typeof AuthenticatedBlockchainIndexRoute
+  '/compliance': typeof AuthenticatedComplianceIndexRoute
   '/governance': typeof AuthenticatedGovernanceIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/organizations': typeof AuthenticatedOrganizationsIndexRoute
@@ -470,6 +506,9 @@ export interface FileRoutesById {
   '/_authenticated/analytics/users': typeof AuthenticatedAnalyticsUsersRoute
   '/_authenticated/blockchain/deposits': typeof AuthenticatedBlockchainDepositsRoute
   '/_authenticated/blockchain/withdrawals': typeof AuthenticatedBlockchainWithdrawalsRoute
+  '/_authenticated/compliance/gdpr': typeof AuthenticatedComplianceGdprRoute
+  '/_authenticated/compliance/kyc': typeof AuthenticatedComplianceKycRoute
+  '/_authenticated/compliance/sar-ctr': typeof AuthenticatedComplianceSarCtrRoute
   '/_authenticated/errors/$error': typeof AuthenticatedErrorsErrorRoute
   '/_authenticated/governance/delegations': typeof AuthenticatedGovernanceDelegationsRouteWithChildren
   '/_authenticated/governance/proposals': typeof AuthenticatedGovernanceProposalsRouteWithChildren
@@ -488,6 +527,7 @@ export interface FileRoutesById {
   '/_authenticated/analytics/': typeof AuthenticatedAnalyticsIndexRoute
   '/_authenticated/audit-logs/': typeof AuthenticatedAuditLogsIndexRoute
   '/_authenticated/blockchain/': typeof AuthenticatedBlockchainIndexRoute
+  '/_authenticated/compliance/': typeof AuthenticatedComplianceIndexRoute
   '/_authenticated/governance/': typeof AuthenticatedGovernanceIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/organizations/': typeof AuthenticatedOrganizationsIndexRoute
@@ -523,6 +563,9 @@ export interface FileRouteTypes {
     | '/analytics/users'
     | '/blockchain/deposits'
     | '/blockchain/withdrawals'
+    | '/compliance/gdpr'
+    | '/compliance/kyc'
+    | '/compliance/sar-ctr'
     | '/errors/$error'
     | '/governance/delegations'
     | '/governance/proposals'
@@ -541,6 +584,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/audit-logs'
     | '/blockchain'
+    | '/compliance'
     | '/governance'
     | '/help-center'
     | '/organizations'
@@ -573,6 +617,9 @@ export interface FileRouteTypes {
     | '/analytics/users'
     | '/blockchain/deposits'
     | '/blockchain/withdrawals'
+    | '/compliance/gdpr'
+    | '/compliance/kyc'
+    | '/compliance/sar-ctr'
     | '/errors/$error'
     | '/governance/delegations'
     | '/governance/proposals'
@@ -591,6 +638,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/audit-logs'
     | '/blockchain'
+    | '/compliance'
     | '/governance'
     | '/help-center'
     | '/organizations'
@@ -625,6 +673,9 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics/users'
     | '/_authenticated/blockchain/deposits'
     | '/_authenticated/blockchain/withdrawals'
+    | '/_authenticated/compliance/gdpr'
+    | '/_authenticated/compliance/kyc'
+    | '/_authenticated/compliance/sar-ctr'
     | '/_authenticated/errors/$error'
     | '/_authenticated/governance/delegations'
     | '/_authenticated/governance/proposals'
@@ -643,6 +694,7 @@ export interface FileRouteTypes {
     | '/_authenticated/analytics/'
     | '/_authenticated/audit-logs/'
     | '/_authenticated/blockchain/'
+    | '/_authenticated/compliance/'
     | '/_authenticated/governance/'
     | '/_authenticated/help-center/'
     | '/_authenticated/organizations/'
@@ -834,6 +886,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedGovernanceIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/compliance/': {
+      id: '/_authenticated/compliance/'
+      path: '/compliance'
+      fullPath: '/compliance'
+      preLoaderRoute: typeof AuthenticatedComplianceIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/blockchain/': {
       id: '/_authenticated/blockchain/'
       path: '/blockchain'
@@ -958,6 +1017,27 @@ declare module '@tanstack/react-router' {
       path: '/errors/$error'
       fullPath: '/errors/$error'
       preLoaderRoute: typeof AuthenticatedErrorsErrorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compliance/sar-ctr': {
+      id: '/_authenticated/compliance/sar-ctr'
+      path: '/compliance/sar-ctr'
+      fullPath: '/compliance/sar-ctr'
+      preLoaderRoute: typeof AuthenticatedComplianceSarCtrRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compliance/kyc': {
+      id: '/_authenticated/compliance/kyc'
+      path: '/compliance/kyc'
+      fullPath: '/compliance/kyc'
+      preLoaderRoute: typeof AuthenticatedComplianceKycRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/compliance/gdpr': {
+      id: '/_authenticated/compliance/gdpr'
+      path: '/compliance/gdpr'
+      fullPath: '/compliance/gdpr'
+      preLoaderRoute: typeof AuthenticatedComplianceGdprRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/blockchain/withdrawals': {
@@ -1089,6 +1169,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyticsUsersRoute: typeof AuthenticatedAnalyticsUsersRoute
   AuthenticatedBlockchainDepositsRoute: typeof AuthenticatedBlockchainDepositsRoute
   AuthenticatedBlockchainWithdrawalsRoute: typeof AuthenticatedBlockchainWithdrawalsRoute
+  AuthenticatedComplianceGdprRoute: typeof AuthenticatedComplianceGdprRoute
+  AuthenticatedComplianceKycRoute: typeof AuthenticatedComplianceKycRoute
+  AuthenticatedComplianceSarCtrRoute: typeof AuthenticatedComplianceSarCtrRoute
   AuthenticatedErrorsErrorRoute: typeof AuthenticatedErrorsErrorRoute
   AuthenticatedGovernanceDelegationsRoute: typeof AuthenticatedGovernanceDelegationsRouteWithChildren
   AuthenticatedGovernanceProposalsRoute: typeof AuthenticatedGovernanceProposalsRouteWithChildren
@@ -1103,6 +1186,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedAnalyticsIndexRoute: typeof AuthenticatedAnalyticsIndexRoute
   AuthenticatedAuditLogsIndexRoute: typeof AuthenticatedAuditLogsIndexRoute
   AuthenticatedBlockchainIndexRoute: typeof AuthenticatedBlockchainIndexRoute
+  AuthenticatedComplianceIndexRoute: typeof AuthenticatedComplianceIndexRoute
   AuthenticatedGovernanceIndexRoute: typeof AuthenticatedGovernanceIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedOrganizationsIndexRoute: typeof AuthenticatedOrganizationsIndexRoute
@@ -1126,6 +1210,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedBlockchainDepositsRoute: AuthenticatedBlockchainDepositsRoute,
   AuthenticatedBlockchainWithdrawalsRoute:
     AuthenticatedBlockchainWithdrawalsRoute,
+  AuthenticatedComplianceGdprRoute: AuthenticatedComplianceGdprRoute,
+  AuthenticatedComplianceKycRoute: AuthenticatedComplianceKycRoute,
+  AuthenticatedComplianceSarCtrRoute: AuthenticatedComplianceSarCtrRoute,
   AuthenticatedErrorsErrorRoute: AuthenticatedErrorsErrorRoute,
   AuthenticatedGovernanceDelegationsRoute:
     AuthenticatedGovernanceDelegationsRouteWithChildren,
@@ -1143,6 +1230,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAnalyticsIndexRoute: AuthenticatedAnalyticsIndexRoute,
   AuthenticatedAuditLogsIndexRoute: AuthenticatedAuditLogsIndexRoute,
   AuthenticatedBlockchainIndexRoute: AuthenticatedBlockchainIndexRoute,
+  AuthenticatedComplianceIndexRoute: AuthenticatedComplianceIndexRoute,
   AuthenticatedGovernanceIndexRoute: AuthenticatedGovernanceIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedOrganizationsIndexRoute: AuthenticatedOrganizationsIndexRoute,

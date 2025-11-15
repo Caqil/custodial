@@ -32,15 +32,17 @@ export function ProposalsPage() {
   if (proposalId) {
     if (isLoading) {
       return (
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <div className='container mx-auto py-8'>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
         </div>
       )
     }
 
     if (!proposalDetails) {
       return (
-        <div className="space-y-6">
+        <div className='container mx-auto space-y-8 py-8'>
           <Button
             variant="ghost"
             onClick={() => navigate({ to: '/governance/proposals' })}
@@ -48,15 +50,18 @@ export function ProposalsPage() {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Proposals
           </Button>
-          <div className="rounded-lg border border-destructive p-4 text-destructive">
-            Proposal not found
+          <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+            <h3 className='font-semibold text-red-900'>Proposal not found</h3>
+            <p className='text-sm text-red-700'>
+              The requested proposal could not be found
+            </p>
           </div>
         </div>
       )
     }
 
     return (
-      <div className="space-y-6">
+      <div className='container mx-auto space-y-8 py-8'>
         {/* Header */}
         <div className="flex items-center justify-between">
           <Button
@@ -97,7 +102,7 @@ export function ProposalsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className='container mx-auto space-y-8 py-8'>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

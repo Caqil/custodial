@@ -5,6 +5,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal, Eye, CheckCircle, XCircle, Ban, RefreshCw } from 'lucide-react'
+import { MoreHorizontal, Eye, CheckCircle, XCircle, Ban, RefreshCw, ArrowUpDown } from 'lucide-react'
 import { TransactionTypeBadge } from './transaction-type-badge'
 import { TransactionStatusBadge } from './transaction-status-badge'
 import type { Transaction } from '@/core/entities/transaction.entity'
@@ -39,8 +40,41 @@ export function getTransactionColumns({
 }: TransactionColumnsProps): ColumnDef<Transaction>[] {
   return [
     {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label='Select all'
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label='Select row'
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
       accessorKey: 'id',
-      header: 'Transaction ID',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Transaction ID
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const txn = row.original
         return (
@@ -55,14 +89,36 @@ export function getTransactionColumns({
     },
     {
       accessorKey: 'type',
-      header: 'Type',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Type
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         return <TransactionTypeBadge type={row.original.type} />
       },
     },
     {
       accessorKey: 'amount',
-      header: 'Amount',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Amount
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         const txn = row.original
         return (
@@ -91,7 +147,18 @@ export function getTransactionColumns({
     },
     {
       accessorKey: 'status',
-      header: 'Status',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant='ghost'
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            className='-ml-4'
+          >
+            Status
+            <ArrowUpDown className='ml-2 h-4 w-4' />
+          </Button>
+        )
+      },
       cell: ({ row }) => {
         return <TransactionStatusBadge status={row.original.status} />
       },

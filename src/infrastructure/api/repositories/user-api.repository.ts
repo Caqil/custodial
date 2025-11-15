@@ -28,7 +28,12 @@ export class UserApiRepository implements IUserRepository {
       API_ENDPOINTS.users.list,
       { params }
     )
-    return response.data.data!
+    console.log('🔍 Raw API response:', response.data)
+    console.log('🔍 Extracted data:', response.data.data)
+    const data = response.data.data!
+    console.log('🔍 Users array:', data.users)
+    console.log('🔍 Total:', data.total)
+    return data
   }
 
   /**

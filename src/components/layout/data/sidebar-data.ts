@@ -206,6 +206,37 @@ export const sidebarData: SidebarData = {
       ],
     },
     {
+      title: 'Compliance',
+      items: [
+        {
+          title: 'Compliance',
+          icon: ShieldCheck,
+          items: [
+            {
+              title: 'Dashboard',
+              url: '/compliance',
+              icon: LayoutDashboard,
+            },
+            {
+              title: 'KYC Management',
+              url: '/compliance/kyc',
+              icon: UserCircle,
+            },
+            {
+              title: 'GDPR Requests',
+              url: '/compliance/gdpr',
+              icon: Shield,
+            },
+            {
+              title: 'SAR/CTR Reports',
+              url: '/compliance/sar-ctr',
+              icon: FileText,
+            },
+          ],
+        },
+      ],
+    },
+    {
       title: 'Analytics & Insights',
       items: [
         {

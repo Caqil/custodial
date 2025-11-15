@@ -72,6 +72,8 @@ export interface TransactionStatistics {
  */
 export interface TransactionVolumeDataPoint {
   date: string
+  volume: string
+  count: number
   total_count: number
   deposit_count: number
   withdrawal_count: number
@@ -136,7 +138,8 @@ export class TransactionApiRepository implements ITransactionRepository {
       API_ENDPOINTS.transactions.list,
       { params }
     )
-    return response.data.data!
+    const data = response.data.data!
+    return data
   }
 
   /**
@@ -146,7 +149,8 @@ export class TransactionApiRepository implements ITransactionRepository {
     const response = await apiClient.get<ApiResponse<Transaction>>(
       API_ENDPOINTS.transactions.getById(id)
     )
-    return response.data.data!
+    const data = response.data.data!
+    return data
   }
 
   /**
@@ -194,7 +198,8 @@ export class TransactionApiRepository implements ITransactionRepository {
       API_ENDPOINTS.transactions.statistics,
       { params }
     )
-    return response.data.data!
+    const data = response.data.data!
+    return data
   }
 
   /**
@@ -209,7 +214,8 @@ export class TransactionApiRepository implements ITransactionRepository {
       API_ENDPOINTS.transactions.volumeChart,
       { params }
     )
-    return response.data.data!
+    const data = response.data.data!
+    return data
   }
 
   /**
@@ -220,7 +226,8 @@ export class TransactionApiRepository implements ITransactionRepository {
       API_ENDPOINTS.transactions.fees,
       { params }
     )
-    return response.data.data!
+    const data = response.data.data!
+    return data
   }
 }
 

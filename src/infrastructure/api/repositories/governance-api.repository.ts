@@ -5,6 +5,7 @@
 
 import apiClient from '../client'
 import { API_ENDPOINTS } from '../endpoints'
+import type { ApiResponse } from '../types'
 import type {
   GovernanceProposal,
   GovernanceProposalListResponse,
@@ -74,17 +75,18 @@ export class GovernanceApiRepository {
     try {
       console.log('📋 Fetching governance proposals:', params)
 
-      const response = await apiClient.get<GovernanceProposalListResponse>(
+      const response = await apiClient.get<ApiResponse<GovernanceProposalListResponse>>(
         API_ENDPOINTS.governance.proposals,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Governance proposals loaded:', {
-        count: response.data.proposals.length,
-        total: response.data.total,
+        count: data.proposals.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance proposals:', error)
       throw error
@@ -98,13 +100,14 @@ export class GovernanceApiRepository {
     try {
       console.log('📋 Fetching governance proposal details:', id)
 
-      const response = await apiClient.get<ProposalDetails>(
+      const response = await apiClient.get<ApiResponse<ProposalDetails>>(
         API_ENDPOINTS.governance.proposalById(id)
       )
 
-      console.log('✅ Governance proposal details loaded:', response.data.proposal.title)
+      const data = response.data.data!
+      console.log('✅ Governance proposal details loaded:', data.proposal.title)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance proposal details:', error)
       throw error
@@ -118,14 +121,15 @@ export class GovernanceApiRepository {
     try {
       console.log('🔨 Creating governance proposal:', request)
 
-      const response = await apiClient.post<GovernanceProposal>(
+      const response = await apiClient.post<ApiResponse<GovernanceProposal>>(
         API_ENDPOINTS.governance.createProposal,
         request
       )
 
-      console.log('✅ Governance proposal created:', response.data.id)
+      const data = response.data.data!
+      console.log('✅ Governance proposal created:', data.id)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error creating governance proposal:', error)
       throw error
@@ -139,17 +143,18 @@ export class GovernanceApiRepository {
     try {
       console.log('📋 Fetching governance votes:', params)
 
-      const response = await apiClient.get<GovernanceVoteListResponse>(
+      const response = await apiClient.get<ApiResponse<GovernanceVoteListResponse>>(
         API_ENDPOINTS.governance.votes,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Governance votes loaded:', {
-        count: response.data.votes.length,
-        total: response.data.total,
+        count: data.votes.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance votes:', error)
       throw error
@@ -163,14 +168,15 @@ export class GovernanceApiRepository {
     try {
       console.log('🗳️ Casting vote:', { proposalId, ...request })
 
-      const response = await apiClient.post<GovernanceVote>(
+      const response = await apiClient.post<ApiResponse<GovernanceVote>>(
         API_ENDPOINTS.governance.vote(proposalId),
         request
       )
 
-      console.log('✅ Vote cast successfully:', response.data.id)
+      const data = response.data.data!
+      console.log('✅ Vote cast successfully:', data.id)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error casting vote:', error)
       throw error
@@ -184,17 +190,18 @@ export class GovernanceApiRepository {
     try {
       console.log('📋 Fetching governance delegations:', params)
 
-      const response = await apiClient.get<GovernanceDelegationListResponse>(
+      const response = await apiClient.get<ApiResponse<GovernanceDelegationListResponse>>(
         API_ENDPOINTS.governance.delegations,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Governance delegations loaded:', {
-        count: response.data.delegations.length,
-        total: response.data.total,
+        count: data.delegations.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance delegations:', error)
       throw error
@@ -208,13 +215,14 @@ export class GovernanceApiRepository {
     try {
       console.log('📋 Fetching governance delegation details:', id)
 
-      const response = await apiClient.get<GovernanceDelegation>(
+      const response = await apiClient.get<ApiResponse<GovernanceDelegation>>(
         API_ENDPOINTS.governance.delegationById(id)
       )
 
+      const data = response.data.data!
       console.log('✅ Governance delegation details loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance delegation details:', error)
       throw error
@@ -228,14 +236,15 @@ export class GovernanceApiRepository {
     try {
       console.log('🤝 Delegating voting power:', request)
 
-      const response = await apiClient.post<GovernanceDelegation>(
+      const response = await apiClient.post<ApiResponse<GovernanceDelegation>>(
         API_ENDPOINTS.governance.delegate,
         request
       )
 
-      console.log('✅ Voting power delegated successfully:', response.data.id)
+      const data = response.data.data!
+      console.log('✅ Voting power delegated successfully:', data.id)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error delegating voting power:', error)
       throw error
@@ -250,14 +259,15 @@ export class GovernanceApiRepository {
       console.log('📊 Fetching governance analytics:', params)
 
       // Note: Using reports endpoint since there's no dedicated analytics endpoint
-      const response = await apiClient.get<GovernanceAnalytics>(
+      const response = await apiClient.get<ApiResponse<GovernanceAnalytics>>(
         API_ENDPOINTS.reports.governance,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Governance analytics loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading governance analytics:', error)
       throw error

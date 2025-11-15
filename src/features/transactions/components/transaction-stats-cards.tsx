@@ -35,8 +35,8 @@ export function TransactionStatsCards() {
     return null
   }
 
-  const successRate = stats.total_count > 0
-    ? ((stats.success_count / stats.total_count) * 100).toFixed(1)
+  const successRate = (stats.total_count ?? 0) > 0
+    ? (((stats.success_count ?? 0) / (stats.total_count ?? 1)) * 100).toFixed(1)
     : '0.0'
 
   return (
@@ -47,7 +47,7 @@ export function TransactionStatsCards() {
           <Activity className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className='text-2xl font-bold'>{stats.total_count.toLocaleString()}</div>
+          <div className='text-2xl font-bold'>{(stats.total_count ?? 0).toLocaleString()}</div>
           <p className='text-xs text-muted-foreground'>
             All time transactions
           </p>
@@ -60,7 +60,7 @@ export function TransactionStatsCards() {
           <DollarSign className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className='text-2xl font-bold'>${stats.total_volume}</div>
+          <div className='text-2xl font-bold'>${stats.total_volume ?? '0.00'}</div>
           <p className='text-xs text-muted-foreground'>
             Across all currencies
           </p>
@@ -75,7 +75,7 @@ export function TransactionStatsCards() {
         <CardContent>
           <div className='text-2xl font-bold text-green-600'>{successRate}%</div>
           <p className='text-xs text-muted-foreground'>
-            {stats.success_count.toLocaleString()} completed
+            {(stats.success_count ?? 0).toLocaleString()} completed
           </p>
         </CardContent>
       </Card>
@@ -87,7 +87,7 @@ export function TransactionStatsCards() {
         </CardHeader>
         <CardContent>
           <div className='text-2xl font-bold text-yellow-600'>
-            {stats.pending_count.toLocaleString()}
+            {(stats.pending_count ?? 0).toLocaleString()}
           </div>
           <p className='text-xs text-muted-foreground'>
             Awaiting processing
@@ -102,7 +102,7 @@ export function TransactionStatsCards() {
         </CardHeader>
         <CardContent>
           <div className='text-2xl font-bold text-red-600'>
-            {stats.failed_count.toLocaleString()}
+            {(stats.failed_count ?? 0).toLocaleString()}
           </div>
           <p className='text-xs text-muted-foreground'>
             Requires attention
@@ -116,7 +116,7 @@ export function TransactionStatsCards() {
           <ArrowUpRight className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className='text-2xl font-bold'>${stats.average_amount}</div>
+          <div className='text-2xl font-bold'>${stats.average_amount ?? '0.00'}</div>
           <p className='text-xs text-muted-foreground'>
             Per transaction
           </p>

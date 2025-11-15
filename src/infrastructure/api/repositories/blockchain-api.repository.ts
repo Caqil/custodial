@@ -5,6 +5,7 @@
 
 import apiClient from '../client'
 import { API_ENDPOINTS } from '../endpoints'
+import type { ApiResponse } from '../types'
 import type {
   NetworkStatus,
   DepositDetection,
@@ -48,13 +49,14 @@ export class BlockchainApiRepository {
     try {
       console.log('📡 Fetching all network status')
 
-      const response = await apiClient.get<NetworkStatus[]>(
+      const response = await apiClient.get<ApiResponse<NetworkStatus[]>>(
         API_ENDPOINTS.blockchain.networks
       )
 
-      console.log('✅ Network status loaded:', response.data.length)
+      const data = response.data.data!
+      console.log('✅ Network status loaded:', data.length)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading network status:', error)
       throw error
@@ -70,17 +72,18 @@ export class BlockchainApiRepository {
     try {
       console.log('📥 Fetching deposits:', params)
 
-      const response = await apiClient.get<DepositDetectionListResponse>(
+      const response = await apiClient.get<ApiResponse<DepositDetectionListResponse>>(
         API_ENDPOINTS.blockchain.deposits,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Deposits loaded:', {
-        count: response.data.deposits.length,
-        total: response.data.total,
+        count: data.deposits.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading deposits:', error)
       throw error
@@ -94,13 +97,14 @@ export class BlockchainApiRepository {
     try {
       console.log('📥 Fetching pending deposits')
 
-      const response = await apiClient.get<DepositDetection[]>(
+      const response = await apiClient.get<ApiResponse<DepositDetection[]>>(
         API_ENDPOINTS.blockchain.depositsPending
       )
 
-      console.log('✅ Pending deposits loaded:', response.data.length)
+      const data = response.data.data!
+      console.log('✅ Pending deposits loaded:', data.length)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading pending deposits:', error)
       throw error
@@ -116,17 +120,18 @@ export class BlockchainApiRepository {
     try {
       console.log('📤 Fetching withdrawals:', params)
 
-      const response = await apiClient.get<WithdrawalBroadcastListResponse>(
+      const response = await apiClient.get<ApiResponse<WithdrawalBroadcastListResponse>>(
         API_ENDPOINTS.blockchain.withdrawals,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Withdrawals loaded:', {
-        count: response.data.withdrawals.length,
-        total: response.data.total,
+        count: data.withdrawals.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading withdrawals:', error)
       throw error
@@ -140,13 +145,14 @@ export class BlockchainApiRepository {
     try {
       console.log('📤 Fetching pending withdrawals')
 
-      const response = await apiClient.get<WithdrawalBroadcast[]>(
+      const response = await apiClient.get<ApiResponse<WithdrawalBroadcast[]>>(
         API_ENDPOINTS.blockchain.withdrawalsPending
       )
 
-      console.log('✅ Pending withdrawals loaded:', response.data.length)
+      const data = response.data.data!
+      console.log('✅ Pending withdrawals loaded:', data.length)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading pending withdrawals:', error)
       throw error
@@ -160,13 +166,14 @@ export class BlockchainApiRepository {
     try {
       console.log('🔄 Retrying withdrawal:', id)
 
-      const response = await apiClient.post<WithdrawalBroadcast>(
+      const response = await apiClient.post<ApiResponse<WithdrawalBroadcast>>(
         API_ENDPOINTS.blockchain.withdrawalRetry(id)
       )
 
-      console.log('✅ Withdrawal retry initiated:', response.data.id)
+      const data = response.data.data!
+      console.log('✅ Withdrawal retry initiated:', data.id)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error retrying withdrawal:', error)
       throw error
@@ -180,17 +187,18 @@ export class BlockchainApiRepository {
     try {
       console.log('📋 Fetching addresses:', params)
 
-      const response = await apiClient.get<AddressListResponse>(
+      const response = await apiClient.get<ApiResponse<AddressListResponse>>(
         API_ENDPOINTS.blockchain.addresses,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Addresses loaded:', {
-        count: response.data.addresses.length,
-        total: response.data.total,
+        count: data.addresses.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading addresses:', error)
       throw error
@@ -204,13 +212,14 @@ export class BlockchainApiRepository {
     try {
       console.log('📡 Fetching chain status:', chain)
 
-      const response = await apiClient.get<NetworkStatus>(
+      const response = await apiClient.get<ApiResponse<NetworkStatus>>(
         API_ENDPOINTS.blockchain.chainStatus(chain)
       )
 
-      console.log('✅ Chain status loaded:', response.data.chain)
+      const data = response.data.data!
+      console.log('✅ Chain status loaded:', data.chain)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading chain status:', error)
       throw error

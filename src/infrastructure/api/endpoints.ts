@@ -196,6 +196,49 @@ export const API_ENDPOINTS = {
   },
 
   /**
+   * Compliance Endpoints (KYC, GDPR, SAR/CTR)
+   */
+  compliance: {
+    // KYC
+    kyc: {
+      pending: `${BASE_PATH}/kyc/pending`,
+      expiring: `${BASE_PATH}/kyc/expiring`,
+      approve: (id: string) => `${BASE_PATH}/kyc/${id}/approve`,
+      reject: (id: string) => `${BASE_PATH}/kyc/${id}/reject`,
+    },
+    // GDPR
+    gdpr: {
+      requests: `${BASE_PATH}/gdpr/data-requests`,
+      processErasure: (id: string) => `${BASE_PATH}/gdpr/data-erasure/${id}/process`,
+      breaches: `${BASE_PATH}/gdpr/breaches`,
+      notifyAuthorities: `${BASE_PATH}/gdpr/breaches/notify`,
+    },
+    // SAR (Suspicious Activity Reports)
+    sar: {
+      pending: `${BASE_PATH}/compliance/sar/pending`,
+      overdue: `${BASE_PATH}/compliance/sar/overdue`,
+      getById: (id: string) => `${BASE_PATH}/compliance/sar/${id}`,
+      approve: (id: string) => `${BASE_PATH}/compliance/sar/${id}/approve`,
+      file: (id: string) => `${BASE_PATH}/compliance/sar/${id}/file`,
+    },
+    // CTR (Currency Transaction Reports)
+    ctr: {
+      pending: `${BASE_PATH}/compliance/ctr/pending`,
+      overdue: `${BASE_PATH}/compliance/ctr/overdue`,
+      getById: (id: string) => `${BASE_PATH}/compliance/ctr/${id}`,
+      file: (id: string) => `${BASE_PATH}/compliance/ctr/${id}/file`,
+    },
+    // Compliance Cases
+    cases: {
+      list: `${BASE_PATH}/compliance/cases`,
+      getById: (id: string) => `${BASE_PATH}/compliance/cases/${id}`,
+      close: (id: string) => `${BASE_PATH}/compliance/cases/${id}/close`,
+    },
+    // Statistics
+    statistics: `${BASE_PATH}/compliance/statistics`,
+  },
+
+  /**
    * Authentication Endpoints (non-admin)
    */
   auth: {
@@ -223,5 +266,6 @@ export const {
   security,
   staking,
   governance,
+  compliance,
   auth
 } = API_ENDPOINTS

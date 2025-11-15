@@ -5,6 +5,7 @@
 
 import apiClient from '../client'
 import { API_ENDPOINTS } from '../endpoints'
+import type { ApiResponse } from '../types'
 import type {
   IWalletRepository,
   BalanceHistoryParams,
@@ -36,17 +37,19 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📋 Fetching wallets list:', params)
 
-      const response = await apiClient.get<WalletListResponse>(
+      const response = await apiClient.get<ApiResponse<WalletListResponse>>(
         API_ENDPOINTS.wallet.list,
         { params }
       )
 
+      const data = response.data.data!
+
       console.log('✅ Wallets loaded:', {
-        count: response.data.wallets.length,
-        total: response.data.total,
+        count: data.wallets.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading wallets:', error)
       throw error
@@ -60,13 +63,15 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📋 Fetching wallet details:', id)
 
-      const response = await apiClient.get<WalletDetailsResponse>(
+      const response = await apiClient.get<ApiResponse<WalletDetailsResponse>>(
         API_ENDPOINTS.wallet.getById(id)
       )
 
-      console.log('✅ Wallet details loaded:', response.data.wallet.name)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Wallet details loaded:', data.wallet.name)
+
+      return data
     } catch (error) {
       console.error('❌ Error loading wallet details:', error)
       throw error
@@ -80,14 +85,16 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('🔨 Creating wallet:', request)
 
-      const response = await apiClient.post<Wallet>(
+      const response = await apiClient.post<ApiResponse<Wallet>>(
         API_ENDPOINTS.wallet.create,
         request
       )
 
-      console.log('✅ Wallet created:', response.data.id)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Wallet created:', data.id)
+
+      return data
     } catch (error) {
       console.error('❌ Error creating wallet:', error)
       throw error
@@ -101,14 +108,16 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('🔄 Updating wallet:', { id, ...request })
 
-      const response = await apiClient.put<Wallet>(
+      const response = await apiClient.put<ApiResponse<Wallet>>(
         API_ENDPOINTS.wallet.update(id),
         request
       )
 
-      console.log('✅ Wallet updated:', response.data.id)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Wallet updated:', data.id)
+
+      return data
     } catch (error) {
       console.error('❌ Error updating wallet:', error)
       throw error
@@ -170,13 +179,15 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📋 Fetching wallet transitions:', id)
 
-      const response = await apiClient.get<WalletTransition[]>(
+      const response = await apiClient.get<ApiResponse<WalletTransition[]>>(
         API_ENDPOINTS.wallet.transitions(id)
       )
 
-      console.log('✅ Transitions loaded:', response.data.length)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Transitions loaded:', data.length)
+
+      return data
     } catch (error) {
       console.error('❌ Error loading transitions:', error)
       throw error
@@ -190,13 +201,15 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📋 Fetching wallet addresses:', id)
 
-      const response = await apiClient.get<WalletAddress[]>(
+      const response = await apiClient.get<ApiResponse<WalletAddress[]>>(
         API_ENDPOINTS.wallet.addresses(id)
       )
 
-      console.log('✅ Addresses loaded:', response.data.length)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Addresses loaded:', data.length)
+
+      return data
     } catch (error) {
       console.error('❌ Error loading addresses:', error)
       throw error
@@ -210,13 +223,15 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📋 Fetching wallet policies:', id)
 
-      const response = await apiClient.get<WalletPolicy[]>(
+      const response = await apiClient.get<ApiResponse<WalletPolicy[]>>(
         API_ENDPOINTS.wallet.policies(id)
       )
 
-      console.log('✅ Policies loaded:', response.data.length)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Policies loaded:', data.length)
+
+      return data
     } catch (error) {
       console.error('❌ Error loading policies:', error)
       throw error
@@ -233,14 +248,16 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📊 Fetching balance history:', { id, ...params })
 
-      const response = await apiClient.get<BalanceHistoryPoint[]>(
+      const response = await apiClient.get<ApiResponse<BalanceHistoryPoint[]>>(
         API_ENDPOINTS.wallet.balanceHistory(id),
         { params }
       )
 
-      console.log('✅ Balance history loaded:', response.data.length)
+      const data = response.data.data!
 
-      return response.data
+      console.log('✅ Balance history loaded:', data.length)
+
+      return data
     } catch (error) {
       console.error('❌ Error loading balance history:', error)
       throw error
@@ -254,14 +271,16 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📊 Fetching wallet analytics:', params)
 
-      const response = await apiClient.get<WalletAnalytics>(
+      const response = await apiClient.get<ApiResponse<WalletAnalytics>>(
         API_ENDPOINTS.wallet.analytics,
         { params }
       )
 
+      const data = response.data.data!
+
       console.log('✅ Analytics loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading analytics:', error)
       throw error
@@ -275,14 +294,16 @@ export class WalletApiRepository implements IWalletRepository {
     try {
       console.log('📊 Fetching wallet statistics:', params)
 
-      const response = await apiClient.get<WalletStatistics>(
+      const response = await apiClient.get<ApiResponse<WalletStatistics>>(
         API_ENDPOINTS.wallet.statistics,
         { params }
       )
 
+      const data = response.data.data!
+
       console.log('✅ Statistics loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading statistics:', error)
       throw error

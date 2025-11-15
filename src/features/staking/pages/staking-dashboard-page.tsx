@@ -36,15 +36,28 @@ function formatLargeNumber(value: string, decimals = 2): string {
  * Staking Dashboard Page Component
  */
 export function StakingDashboardPage() {
-  const { data: analytics, isLoading } = useStakingAnalytics()
+  const { data: analytics, isLoading, error } = useStakingAnalytics()
+
+  if (error) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading staking dashboard</h3>
+          <p className='text-sm text-red-700'>
+            {error instanceof Error ? error.message : 'An error occurred'}
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className='space-y-6'>
+    <div className='container mx-auto space-y-8 py-8'>
       {/* Header */}
       <div className='flex items-center justify-between'>
         <div>
-          <h1 className='text-3xl font-bold'>Staking Dashboard</h1>
-          <p className='text-muted-foreground mt-1'>
+          <h1 className='text-3xl font-bold tracking-tight'>Staking Dashboard</h1>
+          <p className='text-muted-foreground'>
             Manage staking pools, positions, and rewards distribution
           </p>
         </div>
@@ -54,8 +67,8 @@ export function StakingDashboardPage() {
         </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+      {/* Stats */}
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
         {isLoading ? (
           <>
             {[...Array(4)].map((_, i) => (
@@ -143,14 +156,13 @@ export function StakingDashboardPage() {
         ) : null}
       </div>
 
-      {/* Charts Row 1 */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+      {/* Charts */}
+      <div className='grid gap-4 lg:grid-cols-2'>
         <TVLChart />
         <PoolComparisonChart />
       </div>
 
-      {/* Charts Row 2 */}
-      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
+      <div className='grid gap-4 lg:grid-cols-2'>
         <RewardsDistributionChart />
         <APYTrendsChart />
       </div>

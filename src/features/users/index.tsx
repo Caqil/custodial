@@ -5,12 +5,6 @@
 
 import { useState, useMemo } from 'react'
 import { FileDown } from 'lucide-react'
-import { Header } from '@/components/layout/header'
-import { Main } from '@/components/layout/main'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { Search } from '@/components/search'
-import { ThemeSwitch } from '@/components/theme-switch'
-import { ConfigDrawer } from '@/components/config-drawer'
 import { Button } from '@/components/ui/button'
 import { UserTable } from './components/user-table'
 import { UserFilters } from './components/user-filters'
@@ -149,100 +143,115 @@ export function Users() {
     window.URL.revokeObjectURL(url)
   }
 
-  return (
-    <>
-      <Header fixed>
-        <Search />
-        <div className='ms-auto flex items-center space-x-4'>
-          <ThemeSwitch />
-          <ConfigDrawer />
-          <ProfileDropdown />
+  if (error) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading users</h3>
+          <p className='text-sm text-red-700'>
+            {error instanceof Error ? error.message : 'An error occurred'}
+          </p>
         </div>
-      </Header>
+      </div>
+    )
+  }
 
-      <Main className='flex flex-1 flex-col gap-4 sm:gap-6'>
-        {/* Page Header */}
-        <div className='flex flex-wrap items-end justify-between gap-2'>
-          <div>
-            <h2 className='text-2xl font-bold tracking-tight'>User Management</h2>
-            <p className='text-muted-foreground'>
-              Manage users, roles, and permissions
+  return (
+    <div className='container mx-auto space-y-8 py-8'>
+      {/* Header */}
+      <div className='flex items-center justify-between'>
+        <div>
+          <h1 className='text-3xl font-bold tracking-tight'>User Management</h1>
+          <p className='text-muted-foreground'>
+            Manage users, roles, and permissions
+          </p>
+        </div>
+        <Button onClick={handleExport} variant='outline'>
+          <FileDown className='mr-2 h-4 w-4' />
+          Export CSV
+        </Button>
+      </div>
+
+      {/* Stats Cards */}
+      {data && (
+        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>Total Users</p>
+            <p className='text-2xl font-bold'>{data.total}</p>
+          </div>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>Active</p>
+            <p className='text-2xl font-bold text-green-600'>
+              {data.users.filter((u) => u.status === 'active').length}
             </p>
           </div>
-          <Button onClick={handleExport} variant='outline'>
-            <FileDown className='mr-2 h-4 w-4' />
-            Export CSV
-          </Button>
-        </div>
-
-        {/* Filters */}
-        <UserFilters filters={filters} onFiltersChange={setFilters} />
-
-        {/* Stats Cards */}
-        {data && (
-          <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>Total Users</p>
-              <p className='text-2xl font-bold'>{data.total}</p>
-            </div>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>Active</p>
-              <p className='text-2xl font-bold text-green-600'>
-                {data.users.filter((u) => u.status === 'active').length}
-              </p>
-            </div>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>Suspended</p>
-              <p className='text-2xl font-bold text-orange-600'>
-                {data.users.filter((u) => u.status === 'suspended').length}
-              </p>
-            </div>
-            <div className='rounded-lg border p-4'>
-              <p className='text-muted-foreground text-sm font-medium'>MFA Enabled</p>
-              <p className='text-2xl font-bold'>
-                {data.users.filter((u) => u.mfa_enabled).length}
-              </p>
-            </div>
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>Suspended</p>
+            <p className='text-2xl font-bold text-orange-600'>
+              {data.users.filter((u) => u.status === 'suspended').length}
+            </p>
           </div>
-        )}
+          <div className='rounded-lg border p-4'>
+            <p className='text-muted-foreground text-sm font-medium'>MFA Enabled</p>
+            <p className='text-2xl font-bold'>
+              {data.users.filter((u) => u.mfa_enabled).length}
+            </p>
+          </div>
+        </div>
+      )}
 
-        {/* User Table */}
-        <UserTable
-          data={filteredUsers}
-          isLoading={isLoading}
-          onViewDetails={handleViewDetails}
-          onUpdateStatus={handleUpdateStatus}
-          onResetPassword={handleResetPassword}
-          onDelete={handleDelete}
-        />
-      </Main>
+      {/* Filters */}
+      <UserFilters filters={filters} onFiltersChange={setFilters} />
 
-      {/* Dialogs and Drawers */}
+      {/* User Table */}
+      <UserTable
+        data={filteredUsers}
+        isLoading={isLoading}
+        onViewDetails={handleViewDetails}
+        onUpdateStatus={handleUpdateStatus}
+        onResetPassword={handleResetPassword}
+        onDelete={handleDelete}
+      />
+
+      {/* Pagination Info */}
+      {data && (
+        <div className='text-muted-foreground flex items-center justify-between text-sm'>
+          <div>
+            Showing {filteredUsers.length} of {data.total} users
+          </div>
+        </div>
+      )}
+
+      {/* Dialogs */}
       <UserDetailDrawer
         user={selectedUser}
         open={detailDrawerOpen}
         onOpenChange={setDetailDrawerOpen}
       />
+
       <UserStatusUpdateDialog
         user={selectedUser}
         open={statusDialogOpen}
         onOpenChange={setStatusDialogOpen}
       />
+
       <UserResetPasswordDialog
         user={selectedUser}
         open={resetPasswordDialogOpen}
         onOpenChange={setResetPasswordDialogOpen}
       />
+
       <UserDeleteDialog
         user={selectedUser}
         open={deleteDialogOpen}
         onOpenChange={setDeleteDialogOpen}
       />
+
       <UserAuditLogsSheet
         user={selectedUser}
         open={auditLogsSheetOpen}
         onOpenChange={setAuditLogsSheetOpen}
       />
-    </>
+    </div>
   )
 }

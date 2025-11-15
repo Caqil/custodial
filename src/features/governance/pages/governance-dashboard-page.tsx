@@ -19,7 +19,7 @@ import { Loader2, FileText, Vote, Users, TrendingUp } from 'lucide-react'
 export function GovernanceDashboardPage() {
   const navigate = useNavigate()
 
-  const { data: activeProposals, isLoading: proposalsLoading } = useProposals({
+  const { data: activeProposals, isLoading: proposalsLoading, error } = useProposals({
     status: ProposalStatus.Active,
     limit: 6,
   })
@@ -28,16 +28,31 @@ export function GovernanceDashboardPage() {
 
   const isLoading = proposalsLoading || analyticsLoading
 
+  if (error) {
+    return (
+      <div className='container mx-auto py-8'>
+        <div className='rounded-lg border border-red-200 bg-red-50 p-4'>
+          <h3 className='font-semibold text-red-900'>Error loading governance dashboard</h3>
+          <p className='text-sm text-red-700'>
+            {error instanceof Error ? error.message : 'An error occurred'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className='container mx-auto py-8'>
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-6">
+    <div className='container mx-auto space-y-8 py-8'>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -51,9 +66,9 @@ export function GovernanceDashboardPage() {
         </ProposalCreateDialog>
       </div>
 
-      {/* Stats Cards */}
+      {/* Stats */}
       {analytics && (
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Proposals</CardTitle>
@@ -119,7 +134,7 @@ export function GovernanceDashboardPage() {
         </div>
 
         {activeProposals && activeProposals.proposals.length > 0 ? (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className='grid gap-4 lg:grid-cols-3'>
             {activeProposals.proposals.map((proposal) => (
               <ProposalCard key={proposal.id} proposal={proposal} />
             ))}
@@ -133,16 +148,16 @@ export function GovernanceDashboardPage() {
         )}
       </div>
 
-      {/* Analytics Charts */}
+      {/* Charts */}
       {analytics && (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className='grid gap-4 lg:grid-cols-2'>
           <VotingParticipationChart data={analytics} />
           <DelegationFlowChart data={analytics} />
         </div>
       )}
 
       {analytics && activeProposals && (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className='grid gap-4 lg:grid-cols-2'>
           <VoteDistributionChart proposals={activeProposals} />
           <VotingPowerTreemap data={analytics} />
         </div>

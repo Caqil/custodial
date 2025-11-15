@@ -5,6 +5,7 @@
 
 import apiClient from '../client'
 import { API_ENDPOINTS } from '../endpoints'
+import type { ApiResponse } from '../types'
 import type {
   StakingPool,
   StakingPoolListResponse,
@@ -84,17 +85,18 @@ export class StakingApiRepository {
     try {
       console.log('📋 Fetching staking pools:', params)
 
-      const response = await apiClient.get<StakingPoolListResponse>(
+      const response = await apiClient.get<ApiResponse<StakingPoolListResponse>>(
         API_ENDPOINTS.staking.pools,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Staking pools loaded:', {
-        count: response.data.pools.length,
-        total: response.data.total,
+        count: data.pools.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking pools:', error)
       throw error
@@ -108,13 +110,14 @@ export class StakingApiRepository {
     try {
       console.log('📋 Fetching staking pool details:', id)
 
-      const response = await apiClient.get<StakingPool>(
+      const response = await apiClient.get<ApiResponse<StakingPool>>(
         API_ENDPOINTS.staking.poolById(id)
       )
 
-      console.log('✅ Staking pool details loaded:', response.data.name)
+      const data = response.data.data!
+      console.log('✅ Staking pool details loaded:', data.name)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking pool details:', error)
       throw error
@@ -128,14 +131,15 @@ export class StakingApiRepository {
     try {
       console.log('🔨 Creating staking pool:', request)
 
-      const response = await apiClient.post<StakingPool>(
+      const response = await apiClient.post<ApiResponse<StakingPool>>(
         API_ENDPOINTS.staking.createPool,
         request
       )
 
-      console.log('✅ Staking pool created:', response.data.id)
+      const data = response.data.data!
+      console.log('✅ Staking pool created:', data.id)
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error creating staking pool:', error)
       throw error
@@ -149,17 +153,18 @@ export class StakingApiRepository {
     try {
       console.log('📋 Fetching staking positions:', params)
 
-      const response = await apiClient.get<StakingPositionListResponse>(
+      const response = await apiClient.get<ApiResponse<StakingPositionListResponse>>(
         API_ENDPOINTS.staking.positions,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Staking positions loaded:', {
-        count: response.data.positions.length,
-        total: response.data.total,
+        count: data.positions.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking positions:', error)
       throw error
@@ -173,13 +178,14 @@ export class StakingApiRepository {
     try {
       console.log('📋 Fetching staking position details:', id)
 
-      const response = await apiClient.get<StakingPosition>(
+      const response = await apiClient.get<ApiResponse<StakingPosition>>(
         API_ENDPOINTS.staking.positionById(id)
       )
 
+      const data = response.data.data!
       console.log('✅ Staking position details loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking position details:', error)
       throw error
@@ -193,17 +199,18 @@ export class StakingApiRepository {
     try {
       console.log('📋 Fetching staking rewards:', params)
 
-      const response = await apiClient.get<StakingRewardListResponse>(
+      const response = await apiClient.get<ApiResponse<StakingRewardListResponse>>(
         API_ENDPOINTS.staking.rewards,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Staking rewards loaded:', {
-        count: response.data.rewards.length,
-        total: response.data.total,
+        count: data.rewards.length,
+        total: data.total,
       })
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking rewards:', error)
       throw error
@@ -236,14 +243,15 @@ export class StakingApiRepository {
     try {
       console.log('📊 Fetching staking analytics:', params)
 
-      const response = await apiClient.get<StakingAnalytics>(
+      const response = await apiClient.get<ApiResponse<StakingAnalytics>>(
         API_ENDPOINTS.staking.analytics,
         { params }
       )
 
+      const data = response.data.data!
       console.log('✅ Staking analytics loaded')
 
-      return response.data
+      return data
     } catch (error) {
       console.error('❌ Error loading staking analytics:', error)
       throw error
